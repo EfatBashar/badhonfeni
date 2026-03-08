@@ -1,4 +1,4 @@
-import { Phone, Shield, Loader2 } from "lucide-react";
+import { Phone, Shield, Loader2, BookOpen } from "lucide-react";
 import { useCommitteeMembers } from "@/data/donors";
 
 const CommitteeSection = () => {
@@ -7,10 +7,11 @@ const CommitteeSection = () => {
   return (
     <section className="bg-secondary/50 px-4 py-10">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-6 flex items-center gap-2">
+        <div className="mb-2 flex items-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">কমিটি সদস্য</h2>
+          <h2 className="text-2xl font-bold text-foreground">কার্যকরী পরিষদ ২০২৬</h2>
         </div>
+        <p className="mb-6 text-sm text-muted-foreground">বিভাগীয় জোন-২</p>
 
         {isLoading ? (
           <div className="flex justify-center py-8">
@@ -29,13 +30,21 @@ const CommitteeSection = () => {
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-sm font-semibold text-foreground">{member.name}</h3>
                   <p className="text-xs font-medium text-primary">{member.role}</p>
+                  {member.department && (
+                    <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+                      <BookOpen className="h-3 w-3" />
+                      {member.department} • {member.session}
+                    </p>
+                  )}
                 </div>
-                <a
-                  href={`tel:${member.phone}`}
-                  className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-accent text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
-                >
-                  <Phone className="h-4 w-4" />
-                </a>
+                {member.phone ? (
+                  <a
+                    href={`tel:${member.phone}`}
+                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-accent text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                  >
+                    <Phone className="h-4 w-4" />
+                  </a>
+                ) : null}
               </div>
             ))}
           </div>
