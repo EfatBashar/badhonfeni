@@ -18,26 +18,32 @@ export type Database = {
         Row: {
           blood_group: string
           created_at: string
+          department: string | null
           id: string
           name: string
           phone: string
           role: string
+          session: string | null
         }
         Insert: {
           blood_group: string
           created_at?: string
+          department?: string | null
           id?: string
           name: string
           phone: string
           role: string
+          session?: string | null
         }
         Update: {
           blood_group?: string
           created_at?: string
+          department?: string | null
           id?: string
           name?: string
           phone?: string
           role?: string
+          session?: string | null
         }
         Relationships: []
       }
