@@ -16,6 +16,8 @@ export interface CommitteeMember {
   role: string;
   phone: string;
   blood_group: string;
+  department: string | null;
+  session: string | null;
 }
 
 export const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
