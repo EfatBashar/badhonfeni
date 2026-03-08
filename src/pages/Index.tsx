@@ -1,12 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import HeroSection from "@/components/HeroSection";
+import DonorList from "@/components/DonorList";
+import CommitteeSection from "@/components/CommitteeSection";
+import { Heart } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <HeroSection />
+      <DonorList />
+      <CommitteeSection />
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card px-4 py-6 text-center">
+        <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
+          <Heart className="h-3 w-3 fill-primary text-primary" />
+          বাঁধন, ফেনী সরকারি কলেজ ইউনিট
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground">রক্তদান মহাদান</p>
+      </footer>
     </div>
   );
 };
