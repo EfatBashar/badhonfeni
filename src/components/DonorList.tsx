@@ -1,20 +1,21 @@
 import { useState, useMemo } from "react";
-import { Search, Users } from "lucide-react";
-import { donors } from "@/data/donors";
+import { Search, Users, Loader2 } from "lucide-react";
+import { useDonors } from "@/data/donors";
 import BloodGroupFilter from "./BloodGroupFilter";
 import DonorCard from "./DonorCard";
 
 const DonorList = () => {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const { data: donors = [], isLoading } = useDonors();
 
   const filtered = useMemo(() => {
     return donors.filter((d) => {
-      const matchesGroup = !selectedGroup || d.bloodGroup === selectedGroup;
+      const matchesGroup = !selectedGroup || d.blood_group === selectedGroup;
       const matchesSearch = !search || d.name.toLowerCase().includes(search.toLowerCase()) || d.phone.includes(search);
       return matchesGroup && matchesSearch;
     });
-  }, [selectedGroup, search]);
+  }, [selectedGroup, search, donors]);
 
   return (
     <section className="px-4 py-10">
@@ -24,7 +25,6 @@ const DonorList = () => {
           <h2 className="text-2xl font-bold text-foreground">রক্তদাতা তালিকা</h2>
         </div>
 
-        {/* Search */}
         <div className="relative mb-6">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
@@ -36,19 +36,20 @@ const DonorList = () => {
           />
         </div>
 
-        {/* Blood group filters */}
         <div className="mb-6">
           <BloodGroupFilter selected={selectedGroup} onSelect={setSelectedGroup} />
         </div>
 
-        {/* Results count */}
         <p className="mb-4 text-sm text-muted-foreground">
           মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
         </p>
 
-        {/* Donor cards */}
         <div className="space-y-3">
-          {filtered.length > 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : filtered.length > 0 ? (
             filtered.map((donor) => <DonorCard key={donor.id} donor={donor} />)
           ) : (
             <div className="rounded-xl border border-dashed border-border py-12 text-center text-muted-foreground">

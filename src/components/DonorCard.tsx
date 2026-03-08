@@ -4,9 +4,8 @@ import type { Donor } from "@/data/donors";
 const DonorCard = ({ donor }: { donor: Donor }) => {
   return (
     <div className="group relative flex items-center gap-4 rounded-xl border border-border bg-card p-4 shadow-sm transition-all hover:shadow-md">
-      {/* Blood group badge */}
       <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-lg font-extrabold text-primary">
-        {donor.bloodGroup}
+        {donor.blood_group}
       </div>
 
       <div className="min-w-0 flex-1">
@@ -14,10 +13,10 @@ const DonorCard = ({ donor }: { donor: Donor }) => {
         <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <Droplets className="h-3 w-3" />
-            {donor.totalDonations} বার দান
+            {donor.total_donations} বার দান
           </span>
-          {donor.lastDonation && (
-            <span>সর্বশেষ: {new Date(donor.lastDonation).toLocaleDateString("bn-BD")}</span>
+          {donor.last_donation && (
+            <span>সর্বশেষ: {new Date(donor.last_donation).toLocaleDateString("bn-BD")}</span>
           )}
         </div>
       </div>
