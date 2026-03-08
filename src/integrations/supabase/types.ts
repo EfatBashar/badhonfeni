@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      committee_members: {
+        Row: {
+          blood_group: string
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          role: string
+        }
+        Insert: {
+          blood_group: string
+          created_at?: string
+          id?: string
+          name: string
+          phone: string
+          role: string
+        }
+        Update: {
+          blood_group?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          role?: string
+        }
+        Relationships: []
+      }
+      donors: {
+        Row: {
+          blood_group: string
+          created_at: string
+          id: string
+          last_donation: string | null
+          name: string
+          phone: string
+          total_donations: number
+        }
+        Insert: {
+          blood_group: string
+          created_at?: string
+          id?: string
+          last_donation?: string | null
+          name: string
+          phone: string
+          total_donations?: number
+        }
+        Update: {
+          blood_group?: string
+          created_at?: string
+          id?: string
+          last_donation?: string | null
+          name?: string
+          phone?: string
+          total_donations?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
