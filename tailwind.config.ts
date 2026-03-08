@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Outfit', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -46,6 +49,12 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        blood: {
+          DEFAULT: "hsl(var(--blood-red))",
+          dark: "hsl(var(--blood-dark))",
+          light: "hsl(var(--blood-light))",
+          glow: "hsl(var(--blood-glow))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
