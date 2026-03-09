@@ -13,12 +13,19 @@ const Index = () => {
       <CommitteeSection />
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card px-4 py-6 text-center">
-        <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
-          <Heart className="h-3 w-3 fill-primary text-primary" />
-          বাঁধন, ফেনী সরকারি কলেজ ইউনিট
+      <footer className="border-t border-border bg-card px-4 py-8 text-center">
+        <div className="mx-auto max-w-md space-y-3">
+          <div className="flex items-center justify-center gap-1 text-sm font-semibold text-foreground">
+            <Heart className="h-3.5 w-3.5 fill-primary text-primary" />
+            বাঁধন, ফেনী সরকারি কলেজ ইউনিট
+          </div>
+          <div className="space-y-1.5 text-sm text-muted-foreground">
+            <p>📞 <a href="tel:01577280577" className="hover:text-primary transition-colors">01577280577</a></p>
+            <p>📧 <a href="mailto:badhanfgcunit2018@gmail.com" className="hover:text-primary transition-colors">badhanfgcunit2018@gmail.com</a></p>
+            <p>📍 অফিস: কক্ষ নং-১, নিচ তলা, পূর্ব লাল ভবন, ফেনী সরকারি কলেজ।</p>
+          </div>
+          <p className="pt-2 text-xs text-muted-foreground">রক্তদান মহাদান</p>
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">রক্তদান মহাদান</p>
       </footer>
     </div>
   );
