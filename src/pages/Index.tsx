@@ -1,5 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import DonorList from "@/components/DonorList";
+import BloodRequestForm from "@/components/BloodRequestForm";
 import CommitteeSection from "@/components/CommitteeSection";
 import { Heart } from "lucide-react";
 
@@ -8,6 +9,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <HeroSection />
       <DonorList />
+      <BloodRequestForm />
       <CommitteeSection />
 
       {/* Footer */}
