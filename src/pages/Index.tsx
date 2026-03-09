@@ -9,6 +9,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <HeroSection />
       <DonorList />
+      <BloodRequestForm />
       <CommitteeSection />
 
       {/* Footer */}
