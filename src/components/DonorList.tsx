@@ -9,13 +9,16 @@ const DonorList = () => {
   const [search, setSearch] = useState("");
   const { data: donors = [], isLoading } = useDonors();
 
+  const hasFilter = !!selectedGroup || !!search.trim();
+
   const filtered = useMemo(() => {
+    if (!hasFilter) return [];
     return donors.filter((d) => {
       const matchesGroup = !selectedGroup || d.blood_group === selectedGroup;
       const matchesSearch = !search || d.name.toLowerCase().includes(search.toLowerCase()) || d.phone.includes(search);
       return matchesGroup && matchesSearch;
     });
-  }, [selectedGroup, search, donors]);
+  }, [selectedGroup, search, donors, hasFilter]);
 
   return (
     <section className="px-4 py-10">
@@ -40,12 +43,18 @@ const DonorList = () => {
           <BloodGroupFilter selected={selectedGroup} onSelect={setSelectedGroup} />
         </div>
 
-        <p className="mb-4 text-sm text-muted-foreground">
-          মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
-        </p>
+        {hasFilter && (
+          <p className="mb-4 text-sm text-muted-foreground">
+            মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
+          </p>
+        )}
 
         <div className="space-y-3">
-          {isLoading ? (
+          {!hasFilter ? (
+            <div className="rounded-xl border border-dashed border-border py-12 text-center text-muted-foreground">
+              নাম, ফোন নম্বর বা রক্তের গ্রুপ দিয়ে খুঁজুন
+            </div>
+          ) : isLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
