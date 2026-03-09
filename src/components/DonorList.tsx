@@ -9,13 +9,16 @@ const DonorList = () => {
   const [search, setSearch] = useState("");
   const { data: donors = [], isLoading } = useDonors();
 
+  const hasFilter = !!selectedGroup || !!search.trim();
+
   const filtered = useMemo(() => {
+    if (!hasFilter) return [];
     return donors.filter((d) => {
       const matchesGroup = !selectedGroup || d.blood_group === selectedGroup;
       const matchesSearch = !search || d.name.toLowerCase().includes(search.toLowerCase()) || d.phone.includes(search);
       return matchesGroup && matchesSearch;
     });
-  }, [selectedGroup, search, donors]);
+  }, [selectedGroup, search, donors, hasFilter]);
 
   return (
     <section className="px-4 py-10">
