@@ -43,12 +43,18 @@ const DonorList = () => {
           <BloodGroupFilter selected={selectedGroup} onSelect={setSelectedGroup} />
         </div>
 
-        <p className="mb-4 text-sm text-muted-foreground">
-          মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
-        </p>
+        {hasFilter && (
+          <p className="mb-4 text-sm text-muted-foreground">
+            মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
+          </p>
+        )}
 
         <div className="space-y-3">
-          {isLoading ? (
+          {!hasFilter ? (
+            <div className="rounded-xl border border-dashed border-border py-12 text-center text-muted-foreground">
+              নাম, ফোন নম্বর বা রক্তের গ্রুপ দিয়ে খুঁজুন
+            </div>
+          ) : isLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
