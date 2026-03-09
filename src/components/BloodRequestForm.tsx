@@ -88,7 +88,7 @@ const BloodRequestForm = () => {
     return (
       <section className="px-4 py-10">
         <div className="mx-auto max-w-lg rounded-2xl border border-border bg-card p-8 text-center">
-          <CheckCircle className="mx-auto mb-4 h-12 w-12 text-green-500" />
+          <CheckCircle className="mx-auto mb-4 h-12 w-12 text-primary" />
           <h3 className="mb-2 text-xl font-bold text-foreground">রিকোয়েস্ট পাঠানো হয়েছে!</h3>
           <p className="mb-6 text-sm text-muted-foreground">
             আপনার রক্তের রিকোয়েস্ট সফলভাবে জমা হয়েছে। শীঘ্রই যোগাযোগ করা হবে।
