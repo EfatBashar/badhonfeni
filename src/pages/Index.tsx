@@ -24,7 +24,7 @@ const Index = () => {
             <p>📧 <a href="mailto:badhanfgcunit2018@gmail.com" className="hover:text-primary transition-colors">badhanfgcunit2018@gmail.com</a></p>
             <p>📍 অফিস: কক্ষ নং-১, নিচ তলা, পূর্ব লাল ভবন, ফেনী সরকারি কলেজ।</p>
           </div>
-          <p className="pt-2 text-xs text-muted-foreground">রক্তদান মহাদান</p>
+          
         </div>
       </footer>
     </div>

@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone can update donor last_donation" ON public.donors FOR UPDATE TO public USING (true) WITH CHECK (true);
