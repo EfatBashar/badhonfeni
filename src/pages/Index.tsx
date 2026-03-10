@@ -11,6 +11,7 @@ const Index = () => {
       <HeroSection />
       <DonorList />
       <BloodRequestForm />
+      <DonationDateUpdate />
       <CommitteeSection />
 
       {/* Footer */}

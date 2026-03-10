@@ -48,14 +48,8 @@ const DonationDateUpdate = () => {
       .from("donors")
       .update({
         last_donation: format(date, "yyyy-MM-dd"),
-        total_donations: undefined,
       })
       .eq("id", donorId);
-
-    // Increment total_donations separately
-    if (!error) {
-      await supabase.rpc("increment_donations" as never, { donor_id: donorId } as never).catch(() => {});
-    }
 
     setSaving(false);
     if (error) {
