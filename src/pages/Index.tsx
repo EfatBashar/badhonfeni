@@ -2,6 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import DonorList from "@/components/DonorList";
 import BloodRequestForm from "@/components/BloodRequestForm";
 import CommitteeSection from "@/components/CommitteeSection";
+import { Link } from "react-router-dom";
 import DonationDateUpdate from "@/components/DonationDateUpdate";
 import { Heart } from "lucide-react";
 
@@ -26,7 +27,11 @@ const Index = () => {
             <p>📧 <a href="mailto:badhanfgcunit2018@gmail.com" className="hover:text-primary transition-colors">badhanfgcunit2018@gmail.com</a></p>
             <p>📍 অফিস: কক্ষ নং-১, নিচ তলা, পূর্ব লাল ভবন, ফেনী সরকারি কলেজ।</p>
           </div>
-          
+          <div className="pt-3 border-t border-border mt-3">
+            <Link to="/login" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+              🔒 অ্যাডমিন লগইন
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
