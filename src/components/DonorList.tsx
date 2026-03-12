@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { Search, Users, Loader2 } from "lucide-react";
 import { useDonors } from "@/data/donors";
-import BloodGroupFilter from "./BloodGroupFilter";
 import DonorCard from "./DonorCard";
 
 const DonorList = ({ lockedBloodGroup }: { lockedBloodGroup?: string }) => {
