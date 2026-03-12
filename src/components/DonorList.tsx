@@ -4,21 +4,17 @@ import { useDonors } from "@/data/donors";
 import BloodGroupFilter from "./BloodGroupFilter";
 import DonorCard from "./DonorCard";
 
-const DonorList = () => {
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+const DonorList = ({ lockedBloodGroup }: { lockedBloodGroup?: string }) => {
   const [search, setSearch] = useState("");
   const { data: donors = [], isLoading } = useDonors();
 
-  const hasFilter = !!selectedGroup || !!search.trim();
-
   const filtered = useMemo(() => {
-    if (!hasFilter) return [];
     return donors.filter((d) => {
-      const matchesGroup = !selectedGroup || d.blood_group === selectedGroup;
+      const matchesGroup = !lockedBloodGroup || d.blood_group === lockedBloodGroup;
       const matchesSearch = !search || d.name.toLowerCase().includes(search.toLowerCase()) || d.phone.includes(search);
       return matchesGroup && matchesSearch;
     });
-  }, [selectedGroup, search, donors, hasFilter]);
+  }, [search, donors, lockedBloodGroup]);
 
   return (
     <section className="px-4 py-10">
