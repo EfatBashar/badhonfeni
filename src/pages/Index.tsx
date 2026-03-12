@@ -1,3 +1,4 @@
+import { useState } from "react";
 import HeroSection from "@/components/HeroSection";
 import DonorList from "@/components/DonorList";
 import BloodRequestForm from "@/components/BloodRequestForm";
@@ -7,11 +8,13 @@ import DonationDateUpdate from "@/components/DonationDateUpdate";
 import { Heart } from "lucide-react";
 
 const Index = () => {
+  const [requestSubmitted, setRequestSubmitted] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
       <HeroSection />
-      <DonorList />
-      <BloodRequestForm />
+      <BloodRequestForm onSubmitted={() => setRequestSubmitted(true)} />
+      {requestSubmitted && <DonorList />}
       <DonationDateUpdate />
       <CommitteeSection />
 
