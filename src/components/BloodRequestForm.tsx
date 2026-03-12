@@ -22,7 +22,7 @@ const requestSchema = z.object({
 
 type RequestFormData = z.infer<typeof requestSchema>;
 
-const BloodRequestForm = () => {
+const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: () => void }) => {
   const [form, setForm] = useState({
     patient_name: "",
     blood_group: "",
@@ -81,6 +81,7 @@ const BloodRequestForm = () => {
     }
 
     setSubmitted(true);
+    onSubmitted?.();
     toast.success("রক্তের রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে!");
   };
 
