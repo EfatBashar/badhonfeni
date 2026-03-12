@@ -8,13 +8,13 @@ import DonationDateUpdate from "@/components/DonationDateUpdate";
 import { Heart } from "lucide-react";
 
 const Index = () => {
-  const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [requestedBloodGroup, setRequestedBloodGroup] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
       <HeroSection />
-      <BloodRequestForm onSubmitted={() => setRequestSubmitted(true)} />
-      {requestSubmitted && <DonorList />}
+      <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
+      {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
       <DonationDateUpdate />
       <CommitteeSection />
 

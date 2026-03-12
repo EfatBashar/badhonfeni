@@ -81,7 +81,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
     }
 
     setSubmitted(true);
-    onSubmitted?.();
+    onSubmitted?.(result.data.blood_group);
     toast.success("রক্তের রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে!");
   };
 
