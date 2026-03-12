@@ -22,7 +22,7 @@ const requestSchema = z.object({
 
 type RequestFormData = z.infer<typeof requestSchema>;
 
-const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: () => void }) => {
+const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) => void }) => {
   const [form, setForm] = useState({
     patient_name: "",
     blood_group: "",
