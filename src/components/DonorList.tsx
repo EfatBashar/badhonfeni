@@ -21,7 +21,9 @@ const DonorList = ({ lockedBloodGroup }: { lockedBloodGroup?: string }) => {
       <div className="mx-auto max-w-2xl">
         <div className="mb-6 flex items-center gap-2 text-center">
           <Users className="h-6 w-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">রক্তদাতা তালিকা</h2>
+          <h2 className="text-2xl font-bold text-foreground">
+            {lockedBloodGroup ? `${lockedBloodGroup} রক্তদাতা তালিকা` : "রক্তদাতা তালিকা"}
+          </h2>
         </div>
 
         <div className="relative mb-6">
@@ -35,22 +37,12 @@ const DonorList = ({ lockedBloodGroup }: { lockedBloodGroup?: string }) => {
           />
         </div>
 
-        <div className="mb-6">
-          <BloodGroupFilter selected={selectedGroup} onSelect={setSelectedGroup} />
-        </div>
-
-        {hasFilter && (
-          <p className="mb-4 text-sm text-muted-foreground">
-            মোট {filtered.length} জন রক্তদাতা পাওয়া গেছে
-          </p>
-        )}
+        <p className="mb-4 text-sm text-muted-foreground">
+          মোট {filtered.length} জন {lockedBloodGroup} রক্তদাতা পাওয়া গেছে
+        </p>
 
         <div className="space-y-3">
-          {!hasFilter ? (
-            <div className="rounded-xl border border-dashed border-border py-12 text-center text-muted-foreground">
-              নাম, ফোন নম্বর বা রক্তের গ্রুপ দিয়ে খুঁজুন
-            </div>
-          ) : isLoading ? (
+          {isLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
