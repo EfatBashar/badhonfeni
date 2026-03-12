@@ -16,6 +16,7 @@ const Index = () => {
       <HeroSection />
       <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
+      <DonorSignupForm />
       <DonationDateUpdate />
       <CommitteeSection />
 
