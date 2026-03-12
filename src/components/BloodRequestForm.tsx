@@ -81,6 +81,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: () => void }) => {
     }
 
     setSubmitted(true);
+    onSubmitted?.();
     toast.success("রক্তের রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে!");
   };
 
