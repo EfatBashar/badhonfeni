@@ -7,12 +7,14 @@ import CommitteeSection from "@/components/CommitteeSection";
 import { Link } from "react-router-dom";
 import DonationDateUpdate from "@/components/DonationDateUpdate";
 import { Heart } from "lucide-react";
+import AboutBadhon from "@/components/AboutBadhon";
 
 const Index = () => {
   const [requestedBloodGroup, setRequestedBloodGroup] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
+      <AboutBadhon />
       <HeroSection />
       <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
