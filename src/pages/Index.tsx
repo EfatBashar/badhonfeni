@@ -14,6 +14,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <AboutBadhon />
       <HeroSection />
       <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
