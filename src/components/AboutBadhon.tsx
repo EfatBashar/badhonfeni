@@ -17,13 +17,12 @@ const AboutBadhon = () => {
       <Dialog>
         <DialogTrigger asChild>
           <Button
+            size="icon"
             variant="outline"
-            size="sm"
-            className="rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all gap-2"
+            className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-sm"
             aria-label="বাঁধন সম্পর্কে"
           >
             <Info className="h-4 w-4" />
-            <span className="text-xs font-medium">বাঁধন সম্পর্কে</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-lg max-h-[85vh] p-0">
