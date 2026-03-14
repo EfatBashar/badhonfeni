@@ -19,7 +19,7 @@ const Index = () => {
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
       <DonorSignupForm />
       <DonationDateUpdate />
-      <CommitteeSection />
+      
 
       {/* Footer */}
       <footer className="border-t border-border bg-card px-4 py-8 text-center">
