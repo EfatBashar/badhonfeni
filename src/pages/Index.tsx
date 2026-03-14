@@ -6,6 +6,7 @@ import DonorSignupForm from "@/components/DonorSignupForm";
 import CommitteeSection from "@/components/CommitteeSection";
 import { Link } from "react-router-dom";
 import DonationDateUpdate from "@/components/DonationDateUpdate";
+import DonationSection from "@/components/DonationSection";
 import { Heart } from "lucide-react";
 import AboutBadhon from "@/components/AboutBadhon";
 
@@ -20,6 +21,7 @@ const Index = () => {
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
       <DonorSignupForm />
       <DonationDateUpdate />
+      <DonationSection />
       <CommitteeSection />
 
       {/* Footer */}
