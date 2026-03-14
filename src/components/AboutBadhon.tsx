@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const AboutBadhon = () => {
   return (
-    <div className="flex items-center justify-center gap-3 py-4">
+    <div className="absolute right-4 top-4 z-50 flex flex-col gap-2">
       {/* বাঁধন সম্পর্কে */}
       <Dialog>
         <DialogTrigger asChild>
