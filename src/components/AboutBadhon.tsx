@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, GraduationCap, Heart, Copy, Check } from "lucide-react";
+import { Info, GraduationCap, Heart, Copy, Check, Shield, Phone, BookOpen, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,11 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
+import { useCommitteeMembers } from "@/data/donors";
 
 const DONATION_NUMBER = "01796552118";
 
 const AboutBadhon = () => {
   const [copied, setCopied] = useState(false);
+  const { data: members = [], isLoading: committeeLoading } = useCommitteeMembers();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(DONATION_NUMBER);
