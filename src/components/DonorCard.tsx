@@ -1,6 +1,5 @@
-import { Phone, CheckCircle, AlertCircle, Calendar, Heart, Share2, User } from "lucide-react";
+import { Phone, CheckCircle, AlertCircle, Calendar, User } from "lucide-react";
 import type { Donor } from "@/data/donors";
-import { useState } from "react";
 
 const FOUR_MONTHS_MS = 4 * 30 * 24 * 60 * 60 * 1000;
 
@@ -17,17 +16,6 @@ const getNextEligibleDate = (lastDonation: string): Date => {
 
 const DonorCard = ({ donor }: { donor: Donor }) => {
   const eligible = isEligible(donor.last_donation);
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-
-  const handleShare = () => {
-    const text = `${donor.name} (${donor.blood_group}) - রক্তদাতা\nযোগাযোগ: ${donor.phone}`;
-    if (navigator.share) {
-      navigator.share({ title: "রক্তদাতা তথ্য", text });
-    } else {
-      navigator.clipboard.writeText(text);
-    }
-  };
 
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -79,26 +67,14 @@ const DonorCard = ({ donor }: { donor: Donor }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="mt-5 flex items-center gap-2">
+      {/* Contact Button */}
+      <div className="mt-5">
         <a
           href={`tel:${donor.phone}`}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow transition-transform hover:scale-[1.02]"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow transition-transform hover:scale-[1.02]"
         >
           <Phone className="h-4 w-4" /> যোগাযোগ
         </a>
-        <button
-          onClick={() => { setLiked(!liked); setLikeCount(c => liked ? c - 1 : c + 1); }}
-          className={`flex items-center gap-1 rounded-xl border border-border px-3 py-2.5 text-sm transition-colors ${liked ? "text-primary" : "text-muted-foreground"}`}
-        >
-          <Heart className={`h-4 w-4 ${liked ? "fill-primary" : ""}`} /> {likeCount.toLocaleString("bn-BD")}
-        </button>
-        <button
-          onClick={handleShare}
-          className="rounded-xl border border-border px-3 py-2.5 text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <Share2 className="h-4 w-4" />
-        </button>
       </div>
     </div>
   );

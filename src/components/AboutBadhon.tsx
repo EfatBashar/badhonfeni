@@ -12,17 +12,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const AboutBadhon = () => {
   return (
-    <div className="fixed right-4 top-20 z-50 flex flex-col gap-2">
+    <div className="flex items-center justify-center gap-3 py-4">
       {/* বাঁধন সম্পর্কে */}
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            size="icon"
             variant="outline"
-            className="rounded-full shadow-lg border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all"
+            size="sm"
+            className="rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all gap-2"
             aria-label="বাঁধন সম্পর্কে"
           >
-            <Info className="h-5 w-5" />
+            <Info className="h-4 w-4" />
+            <span className="text-xs font-medium">বাঁধন সম্পর্কে</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-lg max-h-[85vh] p-0">
@@ -91,12 +92,13 @@ const AboutBadhon = () => {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            size="icon"
             variant="outline"
-            className="rounded-full shadow-lg border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all"
+            size="sm"
+            className="rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all gap-2"
             aria-label="ফেনী সরকারি কলেজ ইউনিট সম্পর্কে"
           >
-            <GraduationCap className="h-5 w-5" />
+            <GraduationCap className="h-4 w-4" />
+            <span className="text-xs font-medium">আমাদের ইউনিট</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-lg max-h-[85vh] p-0">
