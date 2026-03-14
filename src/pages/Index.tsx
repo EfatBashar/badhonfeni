@@ -21,6 +21,7 @@ const Index = () => {
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
       <DonorSignupForm />
       <DonationDateUpdate />
+      <DonationSection />
       <CommitteeSection />
 
       {/* Footer */}
