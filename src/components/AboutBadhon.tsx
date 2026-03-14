@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, GraduationCap, Heart, Copy, Check } from "lucide-react";
+import { Info, GraduationCap, Heart, Copy, Check, Shield, Phone, BookOpen, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,11 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
+import { useCommitteeMembers } from "@/data/donors";
 
 const DONATION_NUMBER = "01796552118";
 
 const AboutBadhon = () => {
   const [copied, setCopied] = useState(false);
+  const { data: members = [], isLoading: committeeLoading } = useCommitteeMembers();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(DONATION_NUMBER);
@@ -26,8 +28,9 @@ const AboutBadhon = () => {
 
   return (
     <>
-      {/* Top-left donation button */}
-      <div className="absolute left-4 top-4 z-50">
+      {/* Top-left buttons */}
+      <div className="absolute left-4 top-4 z-50 flex flex-col gap-2">
+        {/* Donation button */}
         <Dialog>
           <DialogTrigger asChild>
             <Button
@@ -56,6 +59,64 @@ const AboutBadhon = () => {
                 {copied ? "কপি হয়েছে" : "কপি"}
               </Button>
             </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Committee button */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-sm"
+              aria-label="কার্যকরী পরিষদ"
+            >
+              <Shield className="h-4 w-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-lg max-h-[85vh] p-0">
+            <DialogHeader className="p-6 pb-0">
+              <DialogTitle className="text-xl font-bold">কার্যকরী পরিষদ ২০২৬</DialogTitle>
+              <DialogDescription>বিভাগীয় জোন-২</DialogDescription>
+            </DialogHeader>
+            <ScrollArea className="max-h-[65vh] px-6 pb-6">
+              {committeeLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+              ) : (
+                <div className="grid gap-3 pt-4">
+                  {members.map((member) => (
+                    <div
+                      key={member.id}
+                      className="flex items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-sm"
+                    >
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                        {member.blood_group}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-semibold text-foreground">{member.name}</h3>
+                        <p className="text-xs font-medium text-primary">{member.role}</p>
+                        {member.department && (
+                          <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+                            <BookOpen className="h-3 w-3" />
+                            {member.department} • {member.session}
+                          </p>
+                        )}
+                      </div>
+                      {member.phone && (
+                        <a
+                          href={`tel:${member.phone}`}
+                          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-accent text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+                        >
+                          <Phone className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
           </DialogContent>
         </Dialog>
       </div>
