@@ -40,7 +40,7 @@ const DonorList = ({ lockedBloodGroup }: { lockedBloodGroup?: string }) => {
           মোট {filtered.length} জন {lockedBloodGroup} রক্তদাতা পাওয়া গেছে
         </p>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {isLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
