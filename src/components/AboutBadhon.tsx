@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, GraduationCap, Heart, Copy, Check, Shield, Phone, BookOpen, Loader2, Facebook } from "lucide-react";
+import { Info, GraduationCap, Heart, Copy, Check, Shield, Phone, BookOpen, Loader2, Facebook, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
