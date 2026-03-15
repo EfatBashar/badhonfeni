@@ -119,6 +119,22 @@ const AboutBadhon = () => {
             </ScrollArea>
           </DialogContent>
         </Dialog>
+
+        {/* Facebook button */}
+        <a
+          href="https://www.facebook.com/share/g/1DVAPTnnN7/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            size="icon"
+            variant="outline"
+            className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all shadow-sm"
+            aria-label="Facebook Group"
+          >
+            <Facebook className="h-4 w-4" />
+          </Button>
+        </a>
       </div>
 
       {/* Top-right info buttons */}
