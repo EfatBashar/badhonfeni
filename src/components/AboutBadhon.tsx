@@ -272,6 +272,22 @@ const AboutBadhon = () => {
             </ScrollArea>
           </DialogContent>
         </Dialog>
+
+        {/* Messenger button */}
+        <a
+          href="https://m.me/j/AbbwaYf6108GA3ZB/?send_source=gc%3Acopy_invite_link_c"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            size="icon"
+            variant="outline"
+            className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-[#00B2FF] hover:text-white hover:border-[#00B2FF] transition-all shadow-sm"
+            aria-label="Messenger Group"
+          >
+            <MessageCircle className="h-4 w-4" />
+          </Button>
+        </a>
       </div>
     </>
   );
