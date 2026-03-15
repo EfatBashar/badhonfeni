@@ -118,7 +118,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_donor_last_donation: {
+        Args: { _donor_id: string; _last_donation: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
