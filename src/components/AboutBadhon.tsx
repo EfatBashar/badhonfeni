@@ -285,7 +285,13 @@ const AboutBadhon = () => {
             className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-[#00B2FF] hover:text-white hover:border-[#00B2FF] transition-all shadow-sm"
             aria-label="Messenger Group"
           >
-            <MessageCircle className="h-4 w-4" />
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+            >
+              <path d="M12 2C6.48 2 2 6.03 2 11C2 13.66 3.32 16.07 5.45 17.64V22L9.21 19.58C10.08 19.85 11.02 20 12 20C17.52 20 22 15.97 22 11C22 6.03 17.52 2 12 2ZM10.78 13.15L8.72 10.92L4.83 13.15L9.24 8.67L11.3 10.9L15.17 8.67L10.78 13.15Z" />
+            </svg>
           </Button>
         </a>
       </div>
