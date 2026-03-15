@@ -34,18 +34,18 @@ const AboutBadhon = () => {
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              size="icon"
               variant="outline"
-              className="h-10 w-10 rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-sm"
+              className="h-10 rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-sm gap-2 px-4"
               aria-label="দান করুন"
             >
               <Heart className="h-4 w-4" />
+              <span className="text-sm font-medium">Help Us</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-xs">
             <DialogHeader>
               <DialogTitle className="text-lg font-bold">দান করুন</DialogTitle>
-              <DialogDescription>বিকাশ ও নগদ</DialogDescription>
+              <DialogDescription>বিকাশ ও নগদ (Personal)</DialogDescription>
             </DialogHeader>
             <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-4 py-3">
               <span className="flex-1 text-lg font-bold tracking-wide text-foreground">{DONATION_NUMBER}</span>
