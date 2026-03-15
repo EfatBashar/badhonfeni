@@ -115,7 +115,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      blood_requests_public: {
+        Row: {
+          blood_group: string | null
+          created_at: string | null
+          hospital: string | null
+          id: string | null
+          status: string | null
+          units_needed: number | null
+        }
+        Insert: {
+          blood_group?: string | null
+          created_at?: string | null
+          hospital?: string | null
+          id?: string | null
+          status?: string | null
+          units_needed?: number | null
+        }
+        Update: {
+          blood_group?: string | null
+          created_at?: string | null
+          hospital?: string | null
+          id?: string | null
+          status?: string | null
+          units_needed?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
