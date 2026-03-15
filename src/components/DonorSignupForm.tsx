@@ -38,9 +38,21 @@ const DonorSignupForm = () => {
     return (data && data.length > 0);
   };
 
+  const phoneRegex = /^01[3-9][0-9]{8}$/;
+
   const handleSubmit = async () => {
     if (!form.name.trim() || !form.phone.trim() || !form.blood_group) {
       toast({ title: "ত্রুটি", description: "সব তথ্য পূরণ করুন", variant: "destructive" });
+      return;
+    }
+
+    if (form.name.trim().length < 2) {
+      toast({ title: "ত্রুটি", description: "নাম কমপক্ষে ২ অক্ষরের হতে হবে", variant: "destructive" });
+      return;
+    }
+
+    if (!phoneRegex.test(form.phone.trim())) {
+      toast({ title: "ত্রুটি", description: "সঠিক ফোন নম্বর দিন (01XXXXXXXXX)", variant: "destructive" });
       return;
     }
 
