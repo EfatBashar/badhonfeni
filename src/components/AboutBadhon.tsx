@@ -36,10 +36,10 @@ const AboutBadhon = () => {
             <Button
               variant="outline"
               className="h-10 rounded-full border-primary/30 bg-card hover:bg-primary hover:text-primary-foreground transition-all shadow-sm gap-2 px-4"
-              aria-label="দান করুন"
+              aria-label="Donate"
             >
               <Heart className="h-4 w-4" />
-              <span className="text-sm font-medium">Help Us</span>
+              <span className="text-sm font-medium">Donate</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-xs">
