@@ -44,12 +44,10 @@ const DonationDateUpdate = () => {
     if (!donorId || !date) return;
     setSaving(true);
 
-    const { error } = await supabase
-      .from("donors")
-      .update({
-        last_donation: format(date, "yyyy-MM-dd"),
-      })
-      .eq("id", donorId);
+    const { error } = await supabase.rpc("update_donor_last_donation", {
+      _donor_id: donorId,
+      _last_donation: format(date, "yyyy-MM-dd"),
+    });
 
     setSaving(false);
     if (error) {
