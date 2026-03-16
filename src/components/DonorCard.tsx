@@ -1,4 +1,5 @@
-import { Phone, CheckCircle, AlertCircle, Calendar, User } from "lucide-react";
+import { Phone, CheckCircle, AlertCircle, Calendar, User, Copy, Check } from "lucide-react";
+import { useState } from "react";
 import type { Donor } from "@/data/donors";
 
 const FOUR_MONTHS_MS = 4 * 30 * 24 * 60 * 60 * 1000;
