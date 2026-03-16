@@ -17,6 +17,26 @@ const getNextEligibleDate = (lastDonation: string): Date => {
 
 const DonorCard = ({ donor }: { donor: Donor }) => {
   const eligible = isEligible(donor.last_donation);
+  const [showContact, setShowContact] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(donor.phone);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+      const el = document.createElement("textarea");
+      el.value = donor.phone;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -69,13 +89,35 @@ const DonorCard = ({ donor }: { donor: Donor }) => {
       </div>
 
       {/* Contact Button */}
-      <div className="mt-5">
-        <a
-          href={`tel:${donor.phone}`}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow transition-transform hover:scale-[1.02]"
-        >
-          <Phone className="h-4 w-4" /> যোগাযোগ
-        </a>
+      <div className="mt-5 space-y-2">
+        {!showContact ? (
+          <button
+            onClick={() => setShowContact(true)}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow transition-transform hover:scale-[1.02]"
+          >
+            <Phone className="h-4 w-4" /> যোগাযোগ
+          </button>
+        ) : (
+          <>
+            {/* Phone number with copy */}
+            <button
+              onClick={handleCopy}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-muted py-2.5 text-sm font-bold text-foreground transition-colors hover:bg-accent"
+            >
+              {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4 text-muted-foreground" />}
+              {donor.phone}
+              {copied && <span className="text-xs text-primary">কপি হয়েছে!</span>}
+            </button>
+
+            {/* Call button */}
+            <a
+              href={`tel:${donor.phone}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-sm font-semibold text-primary-foreground shadow transition-transform hover:scale-[1.02]"
+            >
+              <Phone className="h-4 w-4" /> কল করুন
+            </a>
+          </>
+        )}
       </div>
     </div>
   );
