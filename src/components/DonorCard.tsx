@@ -21,14 +21,15 @@ const DonorCard = ({ donor }: { donor: Donor }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
+    const textToCopy = `${donor.name}: ${donor.phone}`;
     try {
-      await navigator.clipboard.writeText(donor.phone);
+      await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // fallback
       const el = document.createElement("textarea");
-      el.value = donor.phone;
+      el.value = textToCopy;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
