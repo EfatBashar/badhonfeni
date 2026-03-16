@@ -106,7 +106,7 @@ const DonorCard = ({ donor }: { donor: Donor }) => {
               className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-muted py-2.5 text-sm font-bold text-foreground transition-colors hover:bg-accent"
             >
               {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4 text-muted-foreground" />}
-              {donor.phone}
+              {donor.name}: {donor.phone}
               {copied && <span className="text-xs text-primary">কপি হয়েছে!</span>}
             </button>
 
