@@ -42,22 +42,60 @@ const AboutBadhon = () => {
               <span className="text-sm font-medium">Donate</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-xs">
-            <DialogHeader>
-              <DialogTitle className="text-lg font-bold">দান করুন</DialogTitle>
-              <DialogDescription>বিকাশ ও নগদ (Personal)</DialogDescription>
+          <DialogContent className="max-w-sm p-0 overflow-hidden">
+            <DialogHeader className="sr-only">
+              <DialogTitle>দান করুন</DialogTitle>
+              <DialogDescription>বিকাশ ও নগদ এর মাধ্যমে দান করুন</DialogDescription>
             </DialogHeader>
-            <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-4 py-3">
-              <span className="flex-1 text-lg font-bold tracking-wide text-foreground">{DONATION_NUMBER}</span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopy}
-                className="gap-1.5 shrink-0"
-              >
-                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                {copied ? "কপি হয়েছে" : "কপি"}
-              </Button>
+
+            {/* Header */}
+            <div className="bg-gradient-to-r from-primary to-primary/80 px-5 py-4 text-center">
+              <Heart className="mx-auto h-8 w-8 text-primary-foreground mb-1" />
+              <h3 className="text-lg font-bold text-primary-foreground">দান করুন</h3>
+              <p className="text-xs text-primary-foreground/80">বাঁধন, ফেনী সরকারি কলেজ ইউনিট</p>
+            </div>
+
+            {/* Send Money Info */}
+            <div className="px-5 py-4 space-y-4">
+              {/* Method label */}
+              <div className="flex items-center justify-center gap-3">
+                <span className="rounded-full bg-[#E2136E]/10 px-3 py-1 text-xs font-bold text-[#E2136E]">bKash</span>
+                <span className="text-xs text-muted-foreground">অথবা</span>
+                <span className="rounded-full bg-[#F26522]/10 px-3 py-1 text-xs font-bold text-[#F26522]">নগদ</span>
+              </div>
+
+              {/* Steps */}
+              <div className="rounded-xl bg-primary/5 border border-primary/10 p-4 space-y-3 text-sm">
+                <p className="text-muted-foreground">
+                  <span className="font-semibold text-foreground">১.</span> আপনার bKash/নগদ অ্যাপ ওপেন করুন
+                </p>
+                <p className="text-muted-foreground">
+                  <span className="font-semibold text-foreground">২.</span> <span className="font-bold text-primary">"Send Money"</span> এ ক্লিক করুন
+                </p>
+                <div className="text-muted-foreground">
+                  <span className="font-semibold text-foreground">৩.</span> প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুন:
+                  <div className="mt-2 flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-3">
+                    <Smartphone className="h-4 w-4 text-primary shrink-0" />
+                    <span className="flex-1 text-base font-bold tracking-wider text-foreground">{DONATION_NUMBER}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleCopy}
+                      className="gap-1.5 shrink-0 h-8 text-xs"
+                    >
+                      {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5" />}
+                      {copied ? "কপি হয়েছে" : "কপি"}
+                    </Button>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">
+                  <span className="font-semibold text-foreground">৪.</span> টাকার পরিমাণ লিখুন ও পিন দিয়ে নিশ্চিত করুন
+                </p>
+              </div>
+
+              <p className="text-center text-[11px] text-muted-foreground">
+                অ্যাকাউন্ট টাইপ: <span className="font-semibold">Personal</span>
+              </p>
             </div>
           </DialogContent>
         </Dialog>
