@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import HeroSection from "@/components/HeroSection";
 import DonorList from "@/components/DonorList";
 import BloodRequestForm from "@/components/BloodRequestForm";
 import DonorSignupForm from "@/components/DonorSignupForm";
 import { Link } from "react-router-dom";
 import DonationDateUpdate from "@/components/DonationDateUpdate";
-import { Heart } from "lucide-react";
+import { Heart, LogOut } from "lucide-react";
 import AboutBadhon from "@/components/AboutBadhon";
 
 const Index = () => {
