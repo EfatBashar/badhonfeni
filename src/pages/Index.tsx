@@ -12,6 +12,12 @@ import AboutBadhon from "@/components/AboutBadhon";
 
 const Index = () => {
   const [requestedBloodGroup, setRequestedBloodGroup] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen bg-background">
