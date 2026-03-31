@@ -101,7 +101,7 @@ serve(async (req) => {
 
     await client.send({
       from: GMAIL_USER,
-      to: safeEmail,
+      to: recipientEmail,
       subject: "ধন্যবাদ! বাঁধন, ফেনী সরকারি কলেজ ইউনিট এ আপনার সাইনআপ সফল হয়েছে ❤️",
       content: "text/html",
       html: htmlBody,
