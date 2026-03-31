@@ -46,8 +46,8 @@ serve(async (req) => {
     }
 
     const safeName = escapeHtml(String(name));
-    const safeEmail = escapeHtml(String(email));
-    const safePhone = phone ? escapeHtml(String(phone)) : "N/A";
+    const recipientEmail = String(email).trim();
+    const safeEmail = escapeHtml(recipientEmail);
     const safeBloodGroup = blood_group ? escapeHtml(String(blood_group)) : "N/A";
 
     const GMAIL_USER = "badhanfgcunit2018@gmail.com";
