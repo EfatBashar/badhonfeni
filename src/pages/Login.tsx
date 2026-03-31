@@ -5,28 +5,54 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart, LogIn, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { bloodGroups } from "@/data/donors";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const phoneRegex = /^01[3-9][0-9]{8}$/;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     if (isSignup) {
-      const { error } = await supabase.auth.signUp({ email, password });
+      if (!phone.trim() || !bloodGroup) {
+        setLoading(false);
+        toast({ title: "ত্রুটি", description: "ফোন নম্বর ও রক্তের গ্রুপ দিন", variant: "destructive" });
+        return;
+      }
+      if (!phoneRegex.test(phone.trim())) {
+        setLoading(false);
+        toast({ title: "ত্রুটি", description: "সঠিক ফোন নম্বর দিন (01XXXXXXXXX)", variant: "destructive" });
+        return;
+      }
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            phone: phone.trim(),
+            blood_group: bloodGroup,
+          },
+        },
+      });
       setLoading(false);
       if (error) {
         toast({ title: "সাইনআপ ব্যর্থ", description: error.message, variant: "destructive" });
       } else {
-        toast({ title: "সাইনআপ সফল!", description: "এখন লগইন করতে পারবেন।" });
+        toast({ title: "সাইনআপ সফল! ✅", description: "আপনার ইমেইলে ভেরিফিকেশন লিংক পাঠানো হয়েছে। ভেরিফাই করে লগইন করুন।" });
         setIsSignup(false);
       }
     } else {
@@ -35,7 +61,7 @@ const Login = () => {
       if (error) {
         toast({ title: "লগইন ব্যর্থ", description: error.message, variant: "destructive" });
       } else {
-        navigate("/admin");
+        navigate("/");
       }
     }
   };
@@ -48,7 +74,7 @@ const Login = () => {
             <Heart className="h-6 w-6 text-primary" />
           </div>
           <CardTitle className="text-xl text-foreground">
-            {isSignup ? "অ্যাডমিন সাইনআপ" : "অ্যাডমিন লগইন"}
+            {isSignup ? "সাইনআপ করুন" : "লগইন করুন"}
           </CardTitle>
           <p className="text-sm text-muted-foreground">বাঁধন, ফেনী সরকারি কলেজ ইউনিট</p>
         </CardHeader>
@@ -61,7 +87,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@example.com"
+                placeholder="example@gmail.com"
                 required
               />
             </div>
@@ -77,6 +103,36 @@ const Login = () => {
                 required
               />
             </div>
+
+            {isSignup && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">ফোন নম্বর</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="01XXXXXXXXX"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>রক্তের গ্রুপ</Label>
+                  <Select value={bloodGroup} onValueChange={setBloodGroup} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="রক্তের গ্রুপ নির্বাচন করুন" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {bloodGroups.map((g) => (
+                        <SelectItem key={g} value={g}>{g}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
+            )}
+
             <Button type="submit" className="w-full" disabled={loading}>
               {isSignup ? <UserPlus className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
               {loading
