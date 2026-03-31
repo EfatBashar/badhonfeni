@@ -28,9 +28,14 @@ const Login = () => {
     setLoading(true);
 
     if (isSignup) {
-      if (!phone.trim() || !bloodGroup) {
+      if (!name.trim() || !phone.trim() || !bloodGroup) {
         setLoading(false);
-        toast({ title: "ত্রুটি", description: "ফোন নম্বর ও রক্তের গ্রুপ দিন", variant: "destructive" });
+        toast({ title: "ত্রুটি", description: "সব তথ্য পূরণ করুন", variant: "destructive" });
+        return;
+      }
+      if (name.trim().length < 2) {
+        setLoading(false);
+        toast({ title: "ত্রুটি", description: "নাম কমপক্ষে ২ অক্ষরের হতে হবে", variant: "destructive" });
         return;
       }
       if (!phoneRegex.test(phone.trim())) {
@@ -39,21 +44,44 @@ const Login = () => {
         return;
       }
 
+      // Check if phone already exists in donors
+      const { data: existing } = await supabase
+        .from("donors")
+        .select("id")
+        .eq("phone", phone.trim())
+        .limit(1);
+
+      if (existing && existing.length > 0) {
+        setLoading(false);
+        toast({ title: "ডুপ্লিকেট!", description: "এই ফোন নম্বর দিয়ে আগেই ডোনার তালিকায় আছেন।", variant: "destructive" });
+        return;
+      }
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
+            name: name.trim(),
             phone: phone.trim(),
             blood_group: bloodGroup,
           },
         },
       });
-      setLoading(false);
+
       if (error) {
+        setLoading(false);
         toast({ title: "সাইনআপ ব্যর্থ", description: error.message, variant: "destructive" });
       } else {
-        toast({ title: "সাইনআপ সফল! ✅", description: "আপনার ইমেইলে ভেরিফিকেশন লিংক পাঠানো হয়েছে। ভেরিফাই করে লগইন করুন।" });
+        // Add as donor automatically
+        await supabase.from("donors").insert({
+          name: name.trim(),
+          phone: phone.trim(),
+          blood_group: bloodGroup,
+        });
+
+        setLoading(false);
+        toast({ title: "সাইনআপ সফল! ✅", description: "আপনি ডোনার তালিকায় যোগ হয়েছেন। ইমেইল ভেরিফাই করে লগইন করুন।" });
         setIsSignup(false);
       }
     } else {
