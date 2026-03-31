@@ -34,7 +34,7 @@ const Index = () => {
             <p>📍 অফিস: কক্ষ নং-১, নিচ তলা, পূর্ব লাল ভবন, ফেনী সরকারি কলেজ।</p>
           </div>
           <div className="pt-3 border-t border-border mt-3">
-            <Link to="/login" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+            <Link to="/admin" className="text-xs text-muted-foreground hover:text-primary transition-colors">
               🔒 অ্যাডমিন লগইন
             </Link>
           </div>
