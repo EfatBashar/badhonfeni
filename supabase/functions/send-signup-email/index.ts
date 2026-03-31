@@ -70,7 +70,7 @@ serve(async (req) => {
         tls: true,
         auth: {
           username: GMAIL_USER,
-          password: GMAIL_APP_PASSWORD,
+          password: GMAIL_APP_PASSWORD.replace(/\s/g, ""),
         },
       },
     });
