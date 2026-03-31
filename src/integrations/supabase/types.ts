@@ -113,6 +113,27 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          blood_group: string
+          created_at: string
+          id: string
+          phone: string
+        }
+        Insert: {
+          blood_group: string
+          created_at?: string
+          id: string
+          phone: string
+        }
+        Update: {
+          blood_group?: string
+          created_at?: string
+          id?: string
+          phone?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthGate from "@/components/AuthGate";
 
 const Index = lazy(() => import("./pages/Index"));
 const Login = lazy(() => import("./pages/Login"));
@@ -19,13 +20,15 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Suspense fallback={null}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/install" element={<Install />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthGate>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/install" element={<Install />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthGate>
         </Suspense>
       </BrowserRouter>
     </TooltipProvider>
