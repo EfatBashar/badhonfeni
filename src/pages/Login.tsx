@@ -109,7 +109,7 @@ const Login = () => {
         }).catch((err) => console.error("Email send failed:", err));
 
         setLoading(false);
-        toast({ title: "সাইনআপ সফল! ✅", description: "আপনি ডোনার তালিকায় যোগ হয়েছেন। ইমেইল ভেরিফাই করে লগইন করুন।" });
+        toast({ title: "ধন্যবাদ! 🎉", description: "আপনার সাইনআপ সফল হয়েছে। আমাদের পাশে থাকার জন্য অসংখ্য ধন্যবাদ! ইমেইল ভেরিফাই করে লগইন করুন। ❤️" });
         setIsSignup(false);
       }
     } else {
