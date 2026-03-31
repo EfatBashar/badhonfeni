@@ -136,6 +136,21 @@ const Login = () => {
             {isSignup && (
               <>
                 <div className="space-y-2">
+                  <Label htmlFor="name">আপনার নাম</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="সম্পূর্ণ নাম লিখুন"
+                    required
+                  />
+                </div>
+              </>
+            )}
+            {isSignup && (
+              <>
+                <div className="space-y-2">
                   <Label htmlFor="phone">ফোন নম্বর</Label>
                   <Input
                     id="phone"
