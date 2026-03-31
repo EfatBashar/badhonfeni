@@ -98,15 +98,6 @@ const Login = () => {
           blood_group: bloodGroup,
         });
 
-        // Send confirmation email via Gmail
-        supabase.functions.invoke("send-signup-email", {
-          body: {
-            name: name.trim(),
-            email,
-            phone: phone.trim(),
-            blood_group: bloodGroup,
-          },
-        }).catch((err) => console.error("Email send failed:", err));
 
         setLoading(false);
         toast({ title: "ধন্যবাদ! 🎉", description: "আপনার সাইনআপ সফল হয়েছে। আমাদের পাশে থাকার জন্য অসংখ্য ধন্যবাদ! ইমেইল ভেরিফাই করে লগইন করুন। ❤️" });
