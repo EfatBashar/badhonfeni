@@ -35,8 +35,19 @@ const Admin = () => {
     navigate("/login");
   };
 
+  const ADMIN_EMAIL = "badhanfgcunit2018@gmail.com";
+
   if (loading) return <div className="flex min-h-screen items-center justify-center text-muted-foreground">লোড হচ্ছে...</div>;
   if (!session) return null;
+
+  if (session.user.email !== ADMIN_EMAIL) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background text-foreground">
+        <p className="text-lg font-semibold text-destructive">⛔ আপনার অ্যাডমিন অ্যাক্সেস নেই</p>
+        <Button variant="outline" onClick={() => navigate("/")}>হোমে ফিরে যান</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
