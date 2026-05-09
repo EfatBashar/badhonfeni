@@ -24,6 +24,17 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <AboutBadhon />
       <HeroSection />
+      <div className="px-4 py-4">
+        <Link to="/learn-blood-grouping" className="mx-auto block max-w-2xl">
+          <Button
+            variant="outline"
+            className="w-full gap-2 border-2 border-primary/30 bg-primary/5 py-6 text-base font-semibold text-primary hover:bg-primary/10"
+          >
+            <BookOpen className="h-5 w-5" />
+            📚 ব্লাড গ্রুপিং শিখুন
+          </Button>
+        </Link>
+      </div>
       <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
       {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
       <DonorSignupForm />
