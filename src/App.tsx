@@ -11,6 +11,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Install = lazy(() => import("./pages/Install"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const LearnBloodGrouping = lazy(() => import("./pages/LearnBloodGrouping"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/install" element={<Install />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/learn-blood-grouping" element={<LearnBloodGrouping />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthGate>
