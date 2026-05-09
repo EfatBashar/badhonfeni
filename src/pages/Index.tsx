@@ -7,7 +7,7 @@ import BloodRequestForm from "@/components/BloodRequestForm";
 import DonorSignupForm from "@/components/DonorSignupForm";
 import { Link } from "react-router-dom";
 import DonationDateUpdate from "@/components/DonationDateUpdate";
-import { Heart, LogOut, BookOpen } from "lucide-react";
+import { Heart, LogOut, BookOpen, Trophy } from "lucide-react";
 import AboutBadhon from "@/components/AboutBadhon";
 import { Button } from "@/components/ui/button";
 
@@ -32,6 +32,15 @@ const Index = () => {
           >
             <BookOpen className="h-5 w-5" />
             📚 ব্লাড গ্রুপিং শিখুন
+          </Button>
+        </Link>
+        <Link to="/quiz" className="mx-auto mt-3 block max-w-2xl">
+          <Button
+            variant="outline"
+            className="w-full gap-2 border-2 border-primary/30 bg-primary/5 py-6 text-base font-semibold text-primary hover:bg-primary/10"
+          >
+            <Trophy className="h-5 w-5" />
+            🏆 ব্লাড ও বাঁধন কুইজ — High Score
           </Button>
         </Link>
       </div>
