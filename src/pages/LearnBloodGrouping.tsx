@@ -3,6 +3,7 @@ import { ArrowLeft, AlertTriangle, BookOpen } from "lucide-react";
 import StepByStepGuide from "@/components/learn/StepByStepGuide";
 import BloodGroupChart from "@/components/learn/BloodGroupChart";
 import BloodGroupingSimulator from "@/components/learn/BloodGroupingSimulator";
+import BloodGroupingQuiz from "@/components/learn/BloodGroupingQuiz";
 
 const LearnBloodGrouping = () => {
   return (
@@ -66,6 +67,11 @@ const LearnBloodGrouping = () => {
         {/* Simulator */}
         <section>
           <BloodGroupingSimulator />
+        </section>
+
+        {/* Quiz */}
+        <section>
+          <BloodGroupingQuiz />
         </section>
 
         {/* Safety */}
