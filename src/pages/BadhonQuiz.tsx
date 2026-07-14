@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { BADHON_QUIZ, type QuizQuestion } from "@/data/badhonQuiz";
 
-const QUESTIONS_PER_ROUND = 20; // randomly pick 20 of 100 each round
+const QUESTIONS_PER_ROUND = 100; // all 100 questions per round (shuffled)
 
 const shuffle = <T,>(arr: T[]) => [...arr].sort(() => Math.random() - 0.5);
 
@@ -114,7 +114,7 @@ const BadhonQuiz = () => {
         {/* Intro card */}
         <section className="rounded-2xl bg-gradient-to-br from-primary to-primary/80 p-5 text-primary-foreground shadow-lg">
           <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/15 px-2.5 py-0.5 text-[11px] font-medium">
-            <Trophy className="h-3 w-3" /> মোট ১০০টি প্রশ্ন থেকে {QUESTIONS_PER_ROUND}টি
+            <Trophy className="h-3 w-3" /> মোট {QUESTIONS_PER_ROUND}টি প্রশ্ন
           </div>
           <h2 className="mt-1 text-xl font-extrabold">আপনার জ্ঞান যাচাই করুন</h2>
           <p className="mt-1 text-sm font-light text-primary-foreground/90">
