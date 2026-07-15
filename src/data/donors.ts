@@ -6,6 +6,8 @@ export interface Donor {
   name: string;
   blood_group: string;
   phone: string;
+  gender: string;
+  is_visible: boolean;
   last_donation: string | null;
   total_donations: number;
 }
@@ -22,6 +24,11 @@ export interface CommitteeMember {
 
 export const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
+/**
+ * useDonors — public view returns only visible donors (RLS enforced).
+ * Admin logged in as badhanfgcunit2018@gmail.com automatically sees hidden donors too
+ * via the "Admin can view all donors" RLS policy.
+ */
 export const useDonors = () =>
   useQuery({
     queryKey: ["donors"],
