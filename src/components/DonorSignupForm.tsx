@@ -21,7 +21,7 @@ interface ParsedDonor {
 const DonorSignupForm = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [form, setForm] = useState({ name: "", phone: "", blood_group: "" });
+  const [form, setForm] = useState({ name: "", phone: "", blood_group: "", gender: "male" });
   const [loading, setLoading] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [parsedDonors, setParsedDonors] = useState<ParsedDonor[]>([]);
@@ -79,6 +79,7 @@ const DonorSignupForm = () => {
       name: form.name.trim(),
       phone: form.phone.trim(),
       blood_group: form.blood_group,
+      gender: form.gender,
     });
     setLoading(false);
 
@@ -86,7 +87,7 @@ const DonorSignupForm = () => {
       toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "সফল!", description: "আপনি ডোনার তালিকায় যোগ হয়েছেন। ধন্যবাদ! 🎉" });
-      setForm({ name: "", phone: "", blood_group: "" });
+      setForm({ name: "", phone: "", blood_group: "", gender: "male" });
       queryClient.invalidateQueries({ queryKey: ["donors"] });
     }
   };
@@ -217,6 +218,18 @@ const DonorSignupForm = () => {
                     {bloodGroups.map((g) => (
                       <SelectItem key={g} value={g}>{g}</SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>লিঙ্গ</Label>
+                <Select value={form.gender} onValueChange={(v) => setForm({ ...form, gender: v })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="লিঙ্গ নির্বাচন করুন" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">পুরুষ</SelectItem>
+                    <SelectItem value="female">মহিলা</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

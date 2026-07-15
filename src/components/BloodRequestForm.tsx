@@ -11,6 +11,10 @@ const requestSchema = z.object({
     errorMap: () => ({ message: "রক্তের গ্রুপ নির্বাচন করুন" }),
   }),
   units_needed: z.number().int().min(1).max(20),
+  hemoglobin: z
+    .number({ invalid_type_error: "হিমোগ্লোবিন লিখুন" })
+    .min(5, "হিমোগ্লোবিন ৫ এর কম হতে পারে না")
+    .max(20, "হিমোগ্লোবিন ২০ এর বেশি হতে পারে না"),
   hospital: z.string().trim().min(1, "হাসপাতালের নাম দিন").max(200),
   contact_phone: z
     .string()
@@ -27,6 +31,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
     patient_name: "",
     blood_group: "",
     units_needed: 1,
+    hemoglobin: "" as string | number,
     hospital: "",
     contact_phone: "",
     notes: "",
@@ -41,7 +46,14 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "units_needed" ? parseInt(value) || 1 : value,
+      [name]:
+        name === "units_needed"
+          ? parseInt(value) || 1
+          : name === "hemoglobin"
+          ? value === ""
+            ? ""
+            : parseFloat(value)
+          : value,
     }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
@@ -67,6 +79,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
         patient_name: result.data.patient_name,
         blood_group: result.data.blood_group,
         units_needed: result.data.units_needed,
+        hemoglobin: result.data.hemoglobin,
         hospital: result.data.hospital,
         contact_phone: result.data.contact_phone,
         notes: result.data.notes || null,
@@ -101,6 +114,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
                 patient_name: "",
                 blood_group: "",
                 units_needed: 1,
+                hemoglobin: "",
                 hospital: "",
                 contact_phone: "",
                 notes: "",
@@ -173,6 +187,29 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
               className={inputClass("units_needed")}
             />
           </div>
+
+          {/* Hemoglobin */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-foreground">
+              হিমোগ্লোবিন (g/dL) <span className="text-destructive">*</span>
+            </label>
+            <input
+              type="number"
+              name="hemoglobin"
+              value={form.hemoglobin}
+              onChange={handleChange}
+              min={5}
+              max={20}
+              step={0.1}
+              placeholder="যেমন: 12.5"
+              className={inputClass("hemoglobin")}
+            />
+            {errors.hemoglobin && <p className="mt-1 text-xs text-destructive">{errors.hemoglobin}</p>}
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              রোগীর সাম্প্রতিক হিমোগ্লোবিন রিপোর্ট থেকে (৫–২০ g/dL এর মধ্যে)
+            </p>
+          </div>
+
 
           {/* Hospital */}
           <div>

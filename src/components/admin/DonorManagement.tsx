@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { Plus, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Trash2, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const DonorManagement = () => {
@@ -16,7 +17,7 @@ const DonorManagement = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", blood_group: "A+" });
+  const [form, setForm] = useState({ name: "", phone: "", blood_group: "A+", gender: "male" });
 
   const handleAdd = async () => {
     if (!form.name || !form.phone || !form.blood_group) return;
@@ -24,12 +25,13 @@ const DonorManagement = () => {
       name: form.name,
       phone: form.phone,
       blood_group: form.blood_group,
+      gender: form.gender,
     });
     if (error) {
       toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "সফল", description: "ডোনার যোগ করা হয়েছে" });
-      setForm({ name: "", phone: "", blood_group: "A+" });
+      setForm({ name: "", phone: "", blood_group: "A+", gender: "male" });
       setOpen(false);
       queryClient.invalidateQueries({ queryKey: ["donors"] });
     }
@@ -44,12 +46,40 @@ const DonorManagement = () => {
     }
   };
 
+  const toggleVisibility = async (id: string, current: boolean) => {
+    const { error } = await supabase
+      .from("donors")
+      .update({ is_visible: !current })
+      .eq("id", id);
+    if (error) {
+      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
+    } else {
+      toast({
+        title: !current ? "প্রকাশিত" : "লুকানো হয়েছে",
+        description: !current
+          ? "এই ডোনার এখন public list-এ দেখাবে"
+          : "এই ডোনার শুধু admin দেখবে",
+      });
+      queryClient.invalidateQueries({ queryKey: ["donors"] });
+    }
+  };
+
   if (isLoading) return <p className="text-muted-foreground">লোড হচ্ছে...</p>;
+
+  const visibleCount = donors?.filter((d) => d.is_visible).length ?? 0;
+  const hiddenCount = (donors?.length ?? 0) - visibleCount;
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">ডোনার তালিকা ({donors?.length || 0})</h2>
+        <div>
+          <h2 className="text-lg font-semibold text-foreground">
+            ডোনার তালিকা ({donors?.length || 0})
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            দৃশ্যমান: {visibleCount} • লুকানো: {hiddenCount}
+          </p>
+        </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm"><Plus className="h-4 w-4" /> যোগ করুন</Button>
@@ -66,34 +96,70 @@ const DonorManagement = () => {
                   <SelectContent>{bloodGroups.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
+              <div>
+                <Label>লিঙ্গ</Label>
+                <Select value={form.gender} onValueChange={(v) => setForm({ ...form, gender: v })}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="male">পুরুষ</SelectItem>
+                    <SelectItem value="female">মহিলা</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <Button className="w-full" onClick={handleAdd}>যোগ করুন</Button>
             </div>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-lg border border-border">
+      <div className="rounded-lg border border-border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>নাম</TableHead>
               <TableHead>গ্রুপ</TableHead>
+              <TableHead>লিঙ্গ</TableHead>
               <TableHead>ফোন</TableHead>
               <TableHead>দান</TableHead>
-              <TableHead className="w-10"></TableHead>
+              <TableHead>স্ট্যাটাস</TableHead>
+              <TableHead className="w-24">অ্যাকশন</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {donors?.map((d) => (
-              <TableRow key={d.id}>
+              <TableRow key={d.id} className={!d.is_visible ? "opacity-60" : ""}>
                 <TableCell className="font-medium">{d.name}</TableCell>
                 <TableCell>{d.blood_group}</TableCell>
+                <TableCell className="text-xs">
+                  {d.gender === "female" ? "মহিলা" : "পুরুষ"}
+                </TableCell>
                 <TableCell>{d.phone}</TableCell>
                 <TableCell>{d.total_donations}</TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon" onClick={() => handleDelete(d.id)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
+                  {d.is_visible ? (
+                    <Badge variant="secondary" className="text-xs">দৃশ্যমান</Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-xs text-muted-foreground">লুকানো</Badge>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => toggleVisibility(d.id, d.is_visible)}
+                      title={d.is_visible ? "লুকান" : "দেখান"}
+                    >
+                      {d.is_visible ? (
+                        <Eye className="h-4 w-4 text-primary" />
+                      ) : (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      )}
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => handleDelete(d.id)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
