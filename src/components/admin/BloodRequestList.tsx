@@ -52,6 +52,7 @@ const BloodRequestList = () => {
             <TableRow>
               <TableHead>রোগী</TableHead>
               <TableHead>গ্রুপ</TableHead>
+              <TableHead>Hb</TableHead>
               <TableHead>হাসপাতাল</TableHead>
               <TableHead>ফোন</TableHead>
               <TableHead>অবস্থা</TableHead>
@@ -63,6 +64,9 @@ const BloodRequestList = () => {
               <TableRow key={r.id}>
                 <TableCell className="font-medium">{r.patient_name}</TableCell>
                 <TableCell>{r.blood_group}</TableCell>
+                <TableCell className="text-xs">
+                  {r.hemoglobin ? `${r.hemoglobin} g/dL` : "—"}
+                </TableCell>
                 <TableCell>{r.hospital}</TableCell>
                 <TableCell>{r.contact_phone}</TableCell>
                 <TableCell>

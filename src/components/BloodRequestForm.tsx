@@ -188,6 +188,29 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
             />
           </div>
 
+          {/* Hemoglobin */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-foreground">
+              হিমোগ্লোবিন (g/dL) <span className="text-destructive">*</span>
+            </label>
+            <input
+              type="number"
+              name="hemoglobin"
+              value={form.hemoglobin}
+              onChange={handleChange}
+              min={5}
+              max={20}
+              step={0.1}
+              placeholder="যেমন: 12.5"
+              className={inputClass("hemoglobin")}
+            />
+            {errors.hemoglobin && <p className="mt-1 text-xs text-destructive">{errors.hemoglobin}</p>}
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              রোগীর সাম্প্রতিক হিমোগ্লোবিন রিপোর্ট থেকে (৫–২০ g/dL এর মধ্যে)
+            </p>
+          </div>
+
+
           {/* Hospital */}
           <div>
             <label className="mb-1.5 block text-sm font-medium text-foreground">হাসপাতালের নাম ও ঠিকানা</label>
