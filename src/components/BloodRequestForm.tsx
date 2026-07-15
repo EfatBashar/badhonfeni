@@ -11,6 +11,10 @@ const requestSchema = z.object({
     errorMap: () => ({ message: "রক্তের গ্রুপ নির্বাচন করুন" }),
   }),
   units_needed: z.number().int().min(1).max(20),
+  hemoglobin: z
+    .number({ invalid_type_error: "হিমোগ্লোবিন লিখুন" })
+    .min(5, "হিমোগ্লোবিন ৫ এর কম হতে পারে না")
+    .max(20, "হিমোগ্লোবিন ২০ এর বেশি হতে পারে না"),
   hospital: z.string().trim().min(1, "হাসপাতালের নাম দিন").max(200),
   contact_phone: z
     .string()
@@ -27,6 +31,7 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
     patient_name: "",
     blood_group: "",
     units_needed: 1,
+    hemoglobin: "" as string | number,
     hospital: "",
     contact_phone: "",
     notes: "",
@@ -41,7 +46,14 @@ const BloodRequestForm = ({ onSubmitted }: { onSubmitted?: (bloodGroup: string) 
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "units_needed" ? parseInt(value) || 1 : value,
+      [name]:
+        name === "units_needed"
+          ? parseInt(value) || 1
+          : name === "hemoglobin"
+          ? value === ""
+            ? ""
+            : parseFloat(value)
+          : value,
     }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
