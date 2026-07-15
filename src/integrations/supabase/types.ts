@@ -19,6 +19,7 @@ export type Database = {
           blood_group: string
           contact_phone: string
           created_at: string
+          hemoglobin: number
           hospital: string
           id: string
           notes: string | null
@@ -30,6 +31,7 @@ export type Database = {
           blood_group: string
           contact_phone: string
           created_at?: string
+          hemoglobin?: number
           hospital: string
           id?: string
           notes?: string | null
@@ -41,6 +43,7 @@ export type Database = {
           blood_group?: string
           contact_phone?: string
           created_at?: string
+          hemoglobin?: number
           hospital?: string
           id?: string
           notes?: string | null
@@ -87,7 +90,9 @@ export type Database = {
         Row: {
           blood_group: string
           created_at: string
+          gender: string
           id: string
+          is_visible: boolean
           last_donation: string | null
           name: string
           phone: string
@@ -96,7 +101,9 @@ export type Database = {
         Insert: {
           blood_group: string
           created_at?: string
+          gender?: string
           id?: string
+          is_visible?: boolean
           last_donation?: string | null
           name: string
           phone: string
@@ -105,7 +112,9 @@ export type Database = {
         Update: {
           blood_group?: string
           created_at?: string
+          gender?: string
           id?: string
+          is_visible?: boolean
           last_donation?: string | null
           name?: string
           phone?: string
@@ -163,6 +172,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      is_admin: { Args: never; Returns: boolean }
       update_donor_last_donation: {
         Args: { _donor_id: string; _last_donation: string }
         Returns: boolean
