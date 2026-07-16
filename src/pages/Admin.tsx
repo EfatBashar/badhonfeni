@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { LogOut, Users, UserCog, Droplets, UserPlus2 } from "lucide-react";
+import { LogOut, Users, UserCog, Droplets, UserPlus2, Megaphone } from "lucide-react";
 import DonorManagement from "@/components/admin/DonorManagement";
 import CommitteeManagement from "@/components/admin/CommitteeManagement";
 import BloodRequestList from "@/components/admin/BloodRequestList";
 import NewSignupsList from "@/components/admin/NewSignupsList";
+import AnnouncementManager from "@/components/admin/AnnouncementManager";
 import type { Session } from "@supabase/supabase-js";
 
 const Admin = () => {
