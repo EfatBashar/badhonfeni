@@ -126,7 +126,12 @@ const DonorManagement = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {donors?.map((d) => (
+            {[...(donors ?? [])].sort((a, b) => {
+              const ai = bloodGroups.indexOf(a.blood_group);
+              const bi = bloodGroups.indexOf(b.blood_group);
+              if (ai !== bi) return ai - bi;
+              return a.name.localeCompare(b.name, "bn");
+            }).map((d) => (
               <TableRow key={d.id} className={!d.is_visible ? "opacity-60" : ""}>
                 <TableCell className="font-medium">{d.name}</TableCell>
                 <TableCell>{d.blood_group}</TableCell>
