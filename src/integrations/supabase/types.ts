@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          message: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          message: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          message?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blood_requests: {
         Row: {
           blood_group: string
