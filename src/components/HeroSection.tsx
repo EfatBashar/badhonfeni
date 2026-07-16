@@ -1,5 +1,6 @@
 import { Heart, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import HeadlineTicker from "@/components/HeadlineTicker";
 
 const HeroSection = () => {
   return (
