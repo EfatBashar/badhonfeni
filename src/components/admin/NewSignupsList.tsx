@@ -5,24 +5,11 @@ import { UserPlus2 } from "lucide-react";
 
 interface Profile {
   id: string;
+  name: string | null;
   phone: string;
   blood_group: string;
   created_at: string;
 }
-
-const formatBn = (iso: string) => {
-  try {
-    return new Date(iso).toLocaleString("bn-BD", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return iso;
-  }
-};
 
 const NewSignupsList = () => {
   const { data: profiles, isLoading } = useQuery({
