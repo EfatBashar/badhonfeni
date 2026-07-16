@@ -64,7 +64,7 @@ const Admin = () => {
 
       <main className="mx-auto max-w-5xl px-4 py-6">
         <Tabs defaultValue="donors" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="donors" className="gap-1 text-xs sm:text-sm">
               <Users className="h-4 w-4" /> ডোনার
             </TabsTrigger>
@@ -77,12 +77,16 @@ const Admin = () => {
             <TabsTrigger value="signups" className="gap-1 text-xs sm:text-sm">
               <UserPlus2 className="h-4 w-4" /> সাইনআপ
             </TabsTrigger>
+            <TabsTrigger value="announcement" className="gap-1 text-xs sm:text-sm">
+              <Megaphone className="h-4 w-4" /> ঘোষণা
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="donors"><DonorManagement /></TabsContent>
           <TabsContent value="committee"><CommitteeManagement /></TabsContent>
           <TabsContent value="requests"><BloodRequestList /></TabsContent>
           <TabsContent value="signups"><NewSignupsList /></TabsContent>
+          <TabsContent value="announcement"><AnnouncementManager /></TabsContent>
         </Tabs>
       </main>
     </div>
