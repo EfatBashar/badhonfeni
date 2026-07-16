@@ -5,24 +5,11 @@ import { UserPlus2 } from "lucide-react";
 
 interface Profile {
   id: string;
+  name: string | null;
   phone: string;
   blood_group: string;
   created_at: string;
 }
-
-const formatBn = (iso: string) => {
-  try {
-    return new Date(iso).toLocaleString("bn-BD", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return iso;
-  }
-};
 
 const NewSignupsList = () => {
   const { data: profiles, isLoading } = useQuery({
@@ -53,19 +40,17 @@ const NewSignupsList = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>নাম</TableHead>
                 <TableHead>ফোন</TableHead>
                 <TableHead>রক্তের গ্রুপ</TableHead>
-                <TableHead>সাইনআপ তারিখ</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {profiles.map((p) => (
                 <TableRow key={p.id}>
-                  <TableCell className="font-medium">{p.phone || "—"}</TableCell>
+                  <TableCell className="font-medium">{p.name || "—"}</TableCell>
+                  <TableCell>{p.phone || "—"}</TableCell>
                   <TableCell>{p.blood_group || "—"}</TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {formatBn(p.created_at)}
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

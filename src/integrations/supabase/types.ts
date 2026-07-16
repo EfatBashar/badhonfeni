@@ -127,18 +127,21 @@ export type Database = {
           blood_group: string
           created_at: string
           id: string
+          name: string | null
           phone: string
         }
         Insert: {
           blood_group: string
           created_at?: string
           id: string
+          name?: string | null
           phone: string
         }
         Update: {
           blood_group?: string
           created_at?: string
           id?: string
+          name?: string | null
           phone?: string
         }
         Relationships: []
