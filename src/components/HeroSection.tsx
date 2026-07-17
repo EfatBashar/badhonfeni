@@ -37,10 +37,12 @@ const HeroSection = () => {
               রক্ত প্রয়োজন? কল করুন
             </Button>
           </a>
+
+          <div className="mt-6">
+            <HeadlineTicker />
+          </div>
         </div>
       </div>
-
-      <HeadlineTicker />
     </section>
   );
 };
