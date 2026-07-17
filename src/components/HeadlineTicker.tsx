@@ -43,14 +43,14 @@ const HeadlineTicker = () => {
 
   return (
     <div className="relative flex overflow-hidden">
-      <div className="flex animate-marquee whitespace-nowrap py-1 text-sm font-medium text-primary-foreground [animation-play-state:running] hover:[animation-play-state:paused]">
+      <div className="flex animate-marquee whitespace-nowrap py-1.5 text-base font-semibold text-primary-foreground [animation-play-state:running] hover:[animation-play-state:paused] md:text-lg">
         <span className="px-8">{text}</span>
         <span className="px-8" aria-hidden="true">★</span>
         <span className="px-8" aria-hidden="true">{text}</span>
         <span className="px-8" aria-hidden="true">★</span>
       </div>
       <div
-        className="flex animate-marquee whitespace-nowrap py-1 text-sm font-medium text-primary-foreground [animation-play-state:running] hover:[animation-play-state:paused]"
+        className="flex animate-marquee whitespace-nowrap py-1.5 text-base font-semibold text-primary-foreground [animation-play-state:running] hover:[animation-play-state:paused] md:text-lg"
         aria-hidden="true"
       >
         <span className="px-8">{text}</span>
