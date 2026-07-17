@@ -1,52 +1,22 @@
-## লক্ষ্য
-Hero section এর "রক্ত প্রয়োজন? কল করুন" button এর নিচে একটা **scrolling headline ticker** (TV news style) থাকবে, যেটা admin panel থেকে edit করা যাবে এবং continuously repeat হবে।
+## পরিবর্তন
 
-## Database (migration)
-নতুন table `public.announcements`:
-- `id` (uuid, pk)
-- `message` (text)
-- `is_active` (boolean, default true)
-- `created_at`, `updated_at`
+Ticker টা এখন অনেক জায়গা নিচ্ছে এবং Hero এর বাইরে আলাদা bar হয়ে গেছে — এতে নিচের "ব্লাড রিকুয়েস্ট" section এর লেখা ঢেকে যাচ্ছে দেখাচ্ছে। সব আগের মতো রেখে শুধু ticker টাকে compact করে "কল করুন" button এর ঠিক নিচের খালি জায়গায় বসাবো, "ঘোষণা" badge বাদ।
 
-Single-row pattern — admin update করলে সবাই দেখবে।
+### `src/components/HeadlineTicker.tsx`
+- বাম পাশের "📢 ঘোষণা" badge সম্পূর্ণ remove
+- Border/background wrapper হালকা করা — শুধু একটা subtle transparent strip, extra padding নয়
+- Height কমানো (`py-2` → `py-1.5`), font size `text-sm` রাখা
+- Marquee logic অপরিবর্তিত (seamless loop, hover pause)
 
-**Access rules:**
-- Anon + authenticated: শুধু active announcement `SELECT` করতে পারবে
-- Admin (`is_admin()`): সব operation (`INSERT`, `UPDATE`, `DELETE`)
-- Proper `GRANT` statements included
+### `src/components/HeroSection.tsx`
+- `<HeadlineTicker />` কে Hero এর বাইরে না রেখে **ভেতরে**, "কল করুন" button এর ঠিক নিচে (same centered container এর মধ্যে) বসানো
+- Button আর ticker এর মাঝে ছোট gap (`mt-6` মতো)
+- Hero এর নিচের `py-16` padding অপরিবর্তিত — button এর নিচের খালি জায়গায় ticker fit করবে
 
-Seed row: "রক্তদান জীবন বাঁচায় — আজই বাঁধন, ফেনী সরকারি কলেজ ইউনিটে যোগাযোগ করুন।"
+### যা অপরিবর্তিত থাকবে
+- Database, admin panel, realtime, animation speed — কিছুই পরিবর্তন হবে না
+- অন্য কোনো file/section touch হবে না
 
-## Frontend
-
-### 1. New component: `src/components/HeadlineTicker.tsx`
-- Supabase থেকে active announcement fetch করবে (React Query)
-- CSS animation দিয়ে right-to-left continuous scroll (marquee)
-- Message কে ২-৩ বার repeat করে seamless loop
-- Red/white theme, TV news headline look:
-  - Left side এ pulsing red "LIVE" / "📢 ঘোষণা" badge
-  - Scrolling white text on primary background (অথবা inverse)
-- Realtime subscribe — admin update করলে সাথে সাথে reflect
-
-### 2. `HeroSection.tsx` update
-"কল করুন" button এর নিচে `<HeadlineTicker />` render।
-
-### 3. Admin panel: `src/components/admin/AnnouncementManager.tsx`
-- Current message দেখাবে (textarea)
-- Save button — update করবে row
-- Active toggle switch
-- `Admin.tsx` এ নতুন tab "ঘোষণা" (Megaphone icon) — এখন ৫টা tab হবে, grid `grid-cols-5`
-
-## Technical notes
-- Marquee: pure CSS `@keyframes` `translateX(0)` → `translateX(-50%)`, duplicate content twice for seamless loop
-- Speed: ~20-25s per cycle, hover এ pause
-- Empty/inactive হলে ticker hide
-- Realtime channel `postgres_changes` on `announcements` table
-
-## Files to touch
-- new migration
-- new: `src/components/HeadlineTicker.tsx`
-- new: `src/components/admin/AnnouncementManager.tsx`
+## Files
+- edit: `src/components/HeadlineTicker.tsx`
 - edit: `src/components/HeroSection.tsx`
-- edit: `src/pages/Admin.tsx`
-- auto-regenerated: `src/integrations/supabase/types.ts`
