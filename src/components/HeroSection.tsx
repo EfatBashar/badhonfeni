@@ -2,7 +2,12 @@ import { Heart, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HeadlineTicker from "@/components/HeadlineTicker";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  bannerHeading?: string;
+  bannerImage?: string;
+}
+
+const HeroSection = ({ bannerHeading, bannerImage }: HeroSectionProps) => {
   return (
     <section className="relative overflow-hidden bg-primary text-primary-foreground">
       <div className="px-4 py-8 md:py-16">
@@ -14,9 +19,9 @@ const HeroSection = () => {
         </div>
 
         <div className="relative mx-auto max-w-2xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary-foreground/15 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-            <Heart className="h-4 w-4 fill-current" />
-            বাঁধন, ফেনী সরকারি কলেজ ইউনিট
+          <div className="mx-auto mb-4 inline-flex max-w-full items-center justify-center gap-2 whitespace-normal break-words rounded-full bg-primary-foreground/15 px-4 py-2 text-sm font-medium leading-snug backdrop-blur-sm">
+            <Heart className="h-4 w-4 shrink-0 fill-current" />
+            <span>বাঁধন, ফেনী সরকারি কলেজ ইউনিট</span>
           </div>
 
           <h1 className="mb-3 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
@@ -37,11 +42,26 @@ const HeroSection = () => {
               রক্ত প্রয়োজন? কল করুন
             </Button>
           </a>
+        </div>
+      </div>
 
-          <div className="mt-5">
+      {/* Full-width banner below the CTA */}
+      <div className="w-full bg-white px-0 pb-4">
+        {bannerImage ? (
+          <img
+            src={bannerImage}
+            alt={bannerHeading ?? "Banner"}
+            className="block h-auto w-full rounded-xl object-cover"
+          />
+        ) : bannerHeading ? (
+          <div className="flex w-full items-center justify-center rounded-xl bg-white px-4 py-4 text-center text-lg font-bold text-primary md:text-xl">
+            {bannerHeading}
+          </div>
+        ) : (
+          <div className="w-full rounded-xl bg-white px-4 py-4 text-center [&_.text-primary-foreground]:!text-primary">
             <HeadlineTicker />
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
