@@ -59,8 +59,22 @@ const AnnouncementBanner = () => {
           className="block h-auto w-full"
         />
       ) : (
-        <div className="w-full px-4 py-4 text-center text-lg font-bold leading-snug text-primary md:py-5 md:text-xl">
-          {message}
+        <div className="relative flex overflow-hidden py-3">
+          <div className="flex shrink-0 animate-marquee whitespace-nowrap text-lg font-bold text-primary [animation-play-state:running] hover:[animation-play-state:paused] md:text-xl">
+            <span className="px-8">{message}</span>
+            <span className="px-8" aria-hidden="true">★</span>
+            <span className="px-8" aria-hidden="true">{message}</span>
+            <span className="px-8" aria-hidden="true">★</span>
+          </div>
+          <div
+            className="flex shrink-0 animate-marquee whitespace-nowrap text-lg font-bold text-primary [animation-play-state:running] hover:[animation-play-state:paused] md:text-xl"
+            aria-hidden="true"
+          >
+            <span className="px-8">{message}</span>
+            <span className="px-8">★</span>
+            <span className="px-8">{message}</span>
+            <span className="px-8">★</span>
+          </div>
         </div>
       )}
     </div>
