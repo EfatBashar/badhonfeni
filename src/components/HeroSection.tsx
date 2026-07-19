@@ -1,13 +1,8 @@
 import { Heart, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import HeadlineTicker from "@/components/HeadlineTicker";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 
-interface HeroSectionProps {
-  bannerHeading?: string;
-  bannerImage?: string;
-}
-
-const HeroSection = ({ bannerHeading, bannerImage }: HeroSectionProps) => {
+const HeroSection = () => {
   return (
     <section className="relative overflow-hidden bg-primary text-primary-foreground">
       <div className="px-4 py-8 md:py-16">
@@ -45,24 +40,8 @@ const HeroSection = ({ bannerHeading, bannerImage }: HeroSectionProps) => {
         </div>
       </div>
 
-      {/* Full-width banner below the CTA */}
-      <div className="w-full bg-white px-0 pb-4">
-        {bannerImage ? (
-          <img
-            src={bannerImage}
-            alt={bannerHeading ?? "Banner"}
-            className="block h-auto w-full rounded-xl object-cover"
-          />
-        ) : bannerHeading ? (
-          <div className="flex w-full items-center justify-center rounded-xl bg-white px-4 py-4 text-center text-lg font-bold text-primary md:text-xl">
-            {bannerHeading}
-          </div>
-        ) : (
-          <div className="w-full rounded-xl bg-white px-4 py-4 text-center [&_.text-primary-foreground]:!text-primary">
-            <HeadlineTicker />
-          </div>
-        )}
-      </div>
+      {/* Full-width configurable banner (text or image) */}
+      <AnnouncementBanner />
     </section>
   );
 };
