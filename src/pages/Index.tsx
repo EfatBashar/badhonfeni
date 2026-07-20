@@ -24,6 +24,10 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <AboutBadhon />
       <HeroSection />
+      <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
+      {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
+      <DonorSignupForm />
+      <DonationDateUpdate />
       <div className="px-4 py-4">
         <Link to="/learn-blood-grouping" className="mx-auto block max-w-2xl">
           <Button
@@ -44,10 +48,7 @@ const Index = () => {
           </Button>
         </Link>
       </div>
-      <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
-      {requestedBloodGroup && <DonorList lockedBloodGroup={requestedBloodGroup} />}
-      <DonorSignupForm />
-      <DonationDateUpdate />
+      
       
 
       {/* Footer */}
