@@ -1,26 +1,41 @@
-## সমস্যা
+## যা হবে
 
-Hero section এর `py-16` padding + ticker এর `mt-6` gap মিলে Hero অনেক লম্বা হয়ে গেছে, mobile viewport (393×627) এ নিচের "রক্ত রিকুয়েস্ট" form পুরোপুরি out of view চলে যাচ্ছে।
+হোমপেজ ব্যানারে এখন **একাধিক ছবি** আপলোড করা যাবে। ছবিগুলো নির্দিষ্ট সময় পর পর নিজে নিজে change হবে (carousel/slideshow), আর user চাইলে বাঁ/ডান arrow বা নিচের dot গুলোতে tap করে manually ছবি দেখতে পারবে।
 
-## পরিবর্তন
+## Database পরিবর্তন
 
-### `src/components/HeroSection.tsx`
-- Outer padding: `py-16` → `py-8 md:py-16` (mobile এ compact, desktop এ আগের মতোই)
-- Heading margin: `mb-4` → `mb-3`
-- Subtitle margin: `mb-8` → `mb-6`
-- Ticker wrapper gap: `mt-6` → `mt-5`
-- Background pattern circles গুলোর position/size অপরিবর্তিত
+`announcements` table-এ নতুন column:
+- `image_urls` (text array) — একাধিক ছবির data URL রাখবে
 
-### `src/components/HeadlineTicker.tsx`
-- Text size বড় করা যাতে খালি strip filled মনে হয়: `text-sm` → `text-base md:text-lg font-semibold`
-- Padding মিনিমাল (`py-1.5`) — বেশি vertical জায়গা নেবে না
-- বাকি সব same — no badge, marquee loop, hover pause
+পুরনো `image_url` (single) column রেখে দেব backward compatibility-এর জন্য — কোনো data হারাবে না।
 
-## ফলাফল
-- Mobile: Hero shorter → button এর পর ticker → নিচেই blood request form visible
-- Desktop: আগের মতোই airy look
-- Ticker text prominent, empty strip fill হবে
+## Admin panel (`AnnouncementManager.tsx`)
+
+- "ছবি বাছুন" এখন **multiple select** — একসাথে অনেক ছবি নেওয়া যাবে, বা এক এক করেও add করা যাবে
+- প্রতিটা preview thumbnail এর পাশে ❌ button → শুধু ঐটা সরানো যাবে
+- Drag-free simple reorder (উপরে/নিচে arrow button) — কোন ছবি আগে দেখাবে সেটা ঠিক করার জন্য
+- প্রতি ছবি ≤ ১.৫MB (আগের মতোই)
+- একটাও ছবি না দিলে → আগের মতো scrolling লাল text দেখাবে
+
+## Homepage banner (`AnnouncementBanner.tsx`)
+
+- ১টা ছবি থাকলে → static ছবি (আগের মতো)
+- ২+ ছবি থাকলে → **carousel**:
+  - প্রতি **৪ সেকেন্ড** পর auto next (fade transition)
+  - বাঁ/ডান chevron arrow (subtle, ছবির উপর overlay)
+  - নিচে dot indicator — কোন ছবিতে আছি বোঝাবে, tap করে jump করা যাবে
+  - user manually change করলে auto-rotate ৮ সেকেন্ডের জন্য pause হবে
+- Full-width, auto height — layout একই থাকবে
+- কোনো ছবি না থাকলে → text marquee (unchanged)
 
 ## Files
-- edit: `src/components/HeroSection.tsx`
-- edit: `src/components/HeadlineTicker.tsx`
+
+- migration: `announcements` table-এ `image_urls text[]` column add
+- edit: `src/components/AnnouncementBanner.tsx` — carousel logic
+- edit: `src/components/admin/AnnouncementManager.tsx` — multi-image upload + reorder + remove
+
+## Technical notes
+
+- Auto-advance: `useEffect` + `setInterval`, cleanup on unmount, pause on user interaction (timeout reset)
+- Transition: Tailwind `transition-opacity` দিয়ে simple crossfade
+- Realtime: existing `announcements-banner` channel-ই invalidate করবে — নতুন কিছু setup লাগবে না
