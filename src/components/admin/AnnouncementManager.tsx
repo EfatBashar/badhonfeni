@@ -6,9 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Save, Megaphone, Image as ImageIcon, X } from "lucide-react";
+import { Save, Megaphone, Image as ImageIcon, X, ArrowUp, ArrowDown, Plus } from "lucide-react";
 
-const MAX_IMAGE_BYTES = 1.5 * 1024 * 1024; // ~1.5MB
+const MAX_IMAGE_BYTES = 1.5 * 1024 * 1024;
 
 const fileToDataUrl = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ const AnnouncementManager = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isActive, setIsActive] = useState(true);
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -44,34 +44,51 @@ const AnnouncementManager = () => {
   useEffect(() => {
     if (current) {
       setMessage(current.message ?? "");
-      setImageUrl((current as { image_url?: string | null }).image_url ?? null);
+      const list = (current as { image_urls?: string[] | null }).image_urls;
+      const legacy = (current as { image_url?: string | null }).image_url;
+      const arr = Array.isArray(list) && list.length > 0 ? list : legacy ? [legacy] : [];
+      setImageUrls(arr.filter((u): u is string => typeof u === "string" && u.length > 0));
       setIsActive(current.is_active);
     }
   }, [current]);
 
-  const handleImagePick = async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      toast({ title: "ভুল ফাইল", description: "শুধু ছবি আপলোড করুন।", variant: "destructive" });
-      return;
+  const handleFiles = async (files: FileList) => {
+    const added: string[] = [];
+    for (const file of Array.from(files)) {
+      if (!file.type.startsWith("image/")) {
+        toast({ title: "ভুল ফাইল", description: `${file.name} — শুধু ছবি দিন।`, variant: "destructive" });
+        continue;
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        toast({
+          title: "ছবি অনেক বড়",
+          description: `${file.name} — ১.৫MB এর কম রাখুন।`,
+          variant: "destructive",
+        });
+        continue;
+      }
+      try {
+        added.push(await fileToDataUrl(file));
+      } catch {
+        toast({ title: "ত্রুটি", description: `${file.name} পড়া যায়নি।`, variant: "destructive" });
+      }
     }
-    if (file.size > MAX_IMAGE_BYTES) {
-      toast({
-        title: "ছবি অনেক বড়",
-        description: "১.৫MB এর কম ছবি ব্যবহার করুন।",
-        variant: "destructive",
-      });
-      return;
-    }
-    try {
-      const dataUrl = await fileToDataUrl(file);
-      setImageUrl(dataUrl);
-    } catch {
-      toast({ title: "ত্রুটি", description: "ছবি পড়া যায়নি।", variant: "destructive" });
-    }
+    if (added.length) setImageUrls((prev) => [...prev, ...added]);
+    if (fileRef.current) fileRef.current.value = "";
   };
 
+  const removeAt = (i: number) => setImageUrls((prev) => prev.filter((_, idx) => idx !== i));
+  const move = (i: number, dir: -1 | 1) =>
+    setImageUrls((prev) => {
+      const j = i + dir;
+      if (j < 0 || j >= prev.length) return prev;
+      const next = [...prev];
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
+
   const handleSave = async () => {
-    if (!imageUrl && !message.trim()) {
+    if (imageUrls.length === 0 && !message.trim()) {
       toast({
         title: "খালি রাখা যাবে না",
         description: "ঘোষণা লিখুন অথবা ছবি দিন।",
@@ -82,7 +99,8 @@ const AnnouncementManager = () => {
     setSaving(true);
     const payload = {
       message: message.trim(),
-      image_url: imageUrl,
+      image_urls: imageUrls,
+      image_url: imageUrls[0] ?? null,
       is_active: isActive,
     };
     let error;
@@ -111,46 +129,80 @@ const AnnouncementManager = () => {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        ছবি দিলে ছবি দেখাবে (full-width)। ছবি না দিলে নিচের লেখা লাল রঙে কেন্দ্রে দেখাবে।
+        একাধিক ছবি দিলে slideshow-এর মতো একটার পর একটা দেখাবে (৪ সেকেন্ড পর পর)। ছবি না দিলে
+        নিচের লেখা লাল রঙে scrolling headline হিসেবে দেখাবে।
       </p>
 
       <div className="space-y-2">
-        <Label>ব্যানার ছবি (ঐচ্ছিক)</Label>
-        <div className="rounded-lg border border-dashed border-border p-3">
-          {imageUrl ? (
+        <Label>ব্যানার ছবি (একাধিক দেওয়া যাবে)</Label>
+        <div className="space-y-2 rounded-lg border border-dashed border-border p-3">
+          {imageUrls.length > 0 && (
             <div className="space-y-2">
-              <img src={imageUrl} alt="preview" className="block h-auto w-full rounded" />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setImageUrl(null);
-                  if (fileRef.current) fileRef.current.value = "";
-                }}
-                className="gap-1"
-              >
-                <X className="h-4 w-4" /> ছবি সরান
-              </Button>
+              {imageUrls.map((url, i) => (
+                <div key={i} className="flex items-center gap-2 rounded-md border border-border p-2">
+                  <img src={url} alt={`banner-${i + 1}`} className="h-14 w-20 rounded object-cover" />
+                  <span className="text-xs text-muted-foreground">#{i + 1}</span>
+                  <div className="ml-auto flex items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => move(i, -1)}
+                      disabled={i === 0}
+                      aria-label="উপরে সরান"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => move(i, 1)}
+                      disabled={i === imageUrls.length - 1}
+                      aria-label="নিচে সরান"
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => removeAt(i)}
+                      aria-label="সরান"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-muted py-6 text-sm text-muted-foreground hover:bg-muted/80"
-            >
-              <ImageIcon className="h-5 w-5" />
-              ছবি বাছুন (সর্বোচ্চ ১.৫MB)
-            </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-muted py-4 text-sm text-muted-foreground hover:bg-muted/80"
+          >
+            {imageUrls.length === 0 ? (
+              <>
+                <ImageIcon className="h-5 w-5" />
+                ছবি বাছুন (একাধিক দেওয়া যাবে, প্রতিটি ≤১.৫MB)
+              </>
+            ) : (
+              <>
+                <Plus className="h-5 w-5" />
+                আরও ছবি যোগ করুন
+              </>
+            )}
+          </button>
           <input
             ref={fileRef}
             type="file"
             accept="image/*"
+            multiple
             className="hidden"
             onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleImagePick(file);
+              if (e.target.files && e.target.files.length > 0) handleFiles(e.target.files);
             }}
           />
         </div>
