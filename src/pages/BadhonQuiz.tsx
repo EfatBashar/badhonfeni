@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 import { toast } from "@/hooks/use-toast";
 import { BADHON_QUIZ, type QuizQuestion } from "@/data/badhonQuiz";
 
