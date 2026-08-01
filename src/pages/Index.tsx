@@ -10,6 +10,7 @@ import DonationDateUpdate from "@/components/DonationDateUpdate";
 import { Heart, LogOut, BookOpen, Trophy } from "lucide-react";
 import AboutBadhon from "@/components/AboutBadhon";
 import { Button } from "@/components/ui/button";
+import Seo from "@/components/Seo";
 
 const Index = () => {
   const [requestedBloodGroup, setRequestedBloodGroup] = useState<string | null>(null);
@@ -22,6 +23,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Badhan Feni | বাঁধন ফেনী সরকারি কলেজ ইউনিট"
+        description="Badhan Feni - বাঁধন ফেনী সরকারি কলেজ ইউনিট। রক্তদাতা তালিকা, জরুরি রক্তের অনুরোধ ও রক্তদানের তথ্য এক জায়গায়।"
+        path="/"
+      />
       <AboutBadhon />
       <HeroSection />
       <BloodRequestForm onSubmitted={(bloodGroup) => setRequestedBloodGroup(bloodGroup)} />
