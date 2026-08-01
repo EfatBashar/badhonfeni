@@ -140,7 +140,11 @@ const AnnouncementManager = () => {
             <div className="space-y-2">
               {imageUrls.map((url, i) => (
                 <div key={i} className="flex items-center gap-2 rounded-md border border-border p-2">
-                  <img src={url} alt={`banner-${i + 1}`} className="h-14 w-20 rounded object-cover" />
+                  <img
+                    src={url}
+                    alt={`ঘোষণার ব্যানার ছবি ${i + 1} — বাঁধন ফেনী সরকারি কলেজ ইউনিট`}
+                    className="h-14 w-20 rounded object-cover"
+                  />
                   <span className="text-xs text-muted-foreground">#{i + 1}</span>
                   <div className="ml-auto flex items-center gap-1">
                     <Button
