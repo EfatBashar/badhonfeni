@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart, LogIn, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { bloodGroups } from "@/data/donors";
+import Seo from "@/components/Seo";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -158,14 +159,19 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <Seo
+        title="লগইন — বাঁধন ফেনী সরকারি কলেজ ইউনিট"
+        description="বাঁধন ফেনী সরকারি কলেজ ইউনিটের রক্তদাতা প্ল্যাটফর্মে লগইন বা সাইনআপ করুন এবং জরুরি রক্তের অনুরোধ করুন।"
+        path="/login"
+      />
       <Card className="w-full max-w-sm border-border shadow-lg">
         <CardHeader className="text-center">
           <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
             <Heart className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-xl text-foreground">
-            {isSignup ? "সাইনআপ করুন" : "লগইন করুন"}
-          </CardTitle>
+          <h1 className="text-xl font-semibold leading-none tracking-tight text-foreground">
+            {isSignup ? "সাইনআপ করুন — বাঁধন ফেনী সরকারি কলেজ" : "লগইন করুন — বাঁধন ফেনী সরকারি কলেজ"}
+          </h1>
           <p className="text-sm text-muted-foreground">বাঁধন, ফেনী সরকারি কলেজ ইউনিট</p>
         </CardHeader>
         <CardContent>

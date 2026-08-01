@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 import { toast } from "@/hooks/use-toast";
 import { BADHON_QUIZ, type QuizQuestion } from "@/data/badhonQuiz";
 
@@ -101,6 +102,11 @@ const BadhonQuiz = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="ব্লাড ও বাঁধন কুইজ — High Score"
+        description="রক্তদান ও বাঁধন সম্পর্কে ১০০টি প্রশ্নের কুইজে অংশ নিন, নিজের জ্ঞান যাচাই করুন এবং Leaderboard-এ নাম তুলুন।"
+        path="/quiz"
+      />
       <header className="sticky top-0 z-10 border-b border-border bg-card/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center gap-3">
           <Link to="/" className="inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted" aria-label="হোম">
