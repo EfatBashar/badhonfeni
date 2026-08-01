@@ -4,11 +4,32 @@ import StepByStepGuide from "@/components/learn/StepByStepGuide";
 import BloodGroupChart from "@/components/learn/BloodGroupChart";
 import BloodGroupingSimulator from "@/components/learn/BloodGroupingSimulator";
 import BloodGroupingQuiz from "@/components/learn/BloodGroupingQuiz";
+import Seo from "@/components/Seo";
 
 const LearnBloodGrouping = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      <Seo
+        title="ব্লাড গ্রুপিং শিখুন — বাঁধন ফেনী"
+        description="Anti-A, Anti-B ও Anti-D রিএজেন্ট দিয়ে ধাপে ধাপে ব্লাড গ্রুপিং শেখার সচিত্র গাইড, চার্ট ও ইন্টারঅ্যাক্টিভ সিমুলেটর।"
+        path="/learn-blood-grouping"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          name: "ব্লাড গ্রুপিং কীভাবে করবেন (A, B, D)",
+          description:
+            "Anti-A, Anti-B ও Anti-D রিএজেন্ট ব্যবহার করে রক্তের গ্রুপ নির্ণয়ের ধাপে ধাপে নির্দেশিকা।",
+          inLanguage: "bn-BD",
+          step: [
+            { "@type": "HowToStep", name: "হাত ও আঙুল প্রস্তুত করুন" },
+            { "@type": "HowToStep", name: "ল্যান্সেট দিয়ে অনামিকা ফুটো করুন" },
+            { "@type": "HowToStep", name: "স্লাইডে তিন ফোঁটা রক্ত নিন" },
+            { "@type": "HowToStep", name: "Anti-A, Anti-B, Anti-D রিএজেন্ট যোগ করুন" },
+            { "@type": "HowToStep", name: "মিশিয়ে এগ্লুটিনেশন পর্যবেক্ষণ করুন" },
+            { "@type": "HowToStep", name: "চার্ট মিলিয়ে ফলাফল নির্ণয় করুন" },
+          ],
+        }}
+      />
       <header className="sticky top-0 z-10 border-b border-border bg-card/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-center gap-3">
           <Link
