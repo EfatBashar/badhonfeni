@@ -37,7 +37,14 @@ const Login = () => {
     });
     setLoading(false);
     if (error) {
-      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
+      const isRateLimit = (error as { status?: number }).status === 429;
+      toast({
+        title: "ত্রুটি",
+        description: isRateLimit
+          ? "অনেকবার চেষ্টা করা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।"
+          : error.message,
+        variant: "destructive",
+      });
     } else {
       toast({ title: "সফল! ✅", description: "পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে।" });
       setIsForgotPassword(false);
