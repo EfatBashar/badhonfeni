@@ -163,18 +163,49 @@ const ResetPassword = () => {
             </div>
             <CardTitle className="text-xl text-foreground">লিংকটি অকার্যকর</CardTitle>
             <p className="text-sm text-muted-foreground">
-              রিসেট লিংকটির মেয়াদ শেষ হয়ে গেছে বা এটি আগেই ব্যবহার করা হয়েছে। অনুগ্রহ করে নতুন করে রিসেট লিংক নিন।
+              রিসেট লিংকটির মেয়াদ শেষ হয়ে গেছে বা এটি আগেই ব্যবহার করা হয়েছে। নিচে ইমেইল দিয়ে নতুন লিংক নিন।
             </p>
           </CardHeader>
-          <CardContent>
-            <Button className="w-full" onClick={() => navigate("/login")}>
-              আবার রিসেট লিংক পাঠান
+          <CardContent className="space-y-4">
+            <form onSubmit={handleResend} className="space-y-3">
+              <div className="space-y-2">
+                <Label htmlFor="resend-email">ইমেইল</Label>
+                <Input
+                  id="resend-email"
+                  type="email"
+                  value={resendEmail}
+                  onChange={(e) => setResendEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={resendState === "sending"}>
+                {resendState === "sending" ? "পাঠানো হচ্ছে..." : "আবার রিসেট লিংক পাঠান"}
+              </Button>
+            </form>
+
+            {resendState === "sent" && (
+              <div className="flex items-start gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-sm text-foreground">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>নতুন রিসেট লিংক পাঠানো হয়েছে ✅ — ইমেইলের ইনবক্স (ও স্প্যাম ফোল্ডার) চেক করুন।</span>
+              </div>
+            )}
+            {resendState === "error" && (
+              <div className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-foreground">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                <span>{resendError || "লিংক পাঠানো যায়নি, আবার চেষ্টা করুন।"}</span>
+              </div>
+            )}
+
+            <Button variant="outline" className="w-full" onClick={() => navigate("/login")}>
+              লগইন পেজে ফিরে যান
             </Button>
           </CardContent>
         </Card>
       </div>
     );
   }
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
