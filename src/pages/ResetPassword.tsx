@@ -140,6 +140,24 @@ const ResetPassword = () => {
     }
   };
 
+  const handleResend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResendState("sending");
+    setResendError("");
+    const { error } = await supabase.auth.resetPasswordForEmail(resendEmail.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) {
+      setResendState("error");
+      setResendError(error.message);
+      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
+    } else {
+      setResendState("sent");
+      toast({ title: "পাঠানো হয়েছে ✅", description: "নতুন রিসেট লিংক ইমেইলে পাঠানো হয়েছে।" });
+    }
+  };
+
+
   if (status === "checking") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background px-4">
