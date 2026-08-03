@@ -10,6 +10,19 @@ import { useToast } from "@/hooks/use-toast";
 
 type Status = "checking" | "ready" | "invalid";
 
+const withTimeout = async <T,>(promise: PromiseLike<T>, milliseconds = 8000): Promise<T> => {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("AUTH_TIMEOUT")), milliseconds);
+  });
+
+  try {
+    return await Promise.race([Promise.resolve(promise), timeout]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+};
+
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,67 +34,83 @@ const ResetPassword = () => {
   useEffect(() => {
     let cancelled = false;
 
+    const finish = (nextStatus: Exclude<Status, "checking">) => {
+      if (!cancelled) setStatus(nextStatus);
+    };
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (cancelled) return;
-      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && session)) {
+      if (event === "PASSWORD_RECOVERY" || ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session)) {
         setStatus("ready");
       }
     });
 
     const verify = async () => {
-      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-      const query = new URLSearchParams(window.location.search);
+      try {
+        const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+        const query = new URLSearchParams(window.location.search);
 
-      // 1) Hash flow: #access_token=...&type=recovery
-      if (hash.get("access_token") && hash.get("refresh_token")) {
-        const { error } = await supabase.auth.setSession({
-          access_token: hash.get("access_token") as string,
-          refresh_token: hash.get("refresh_token") as string,
-        });
-        if (!cancelled) {
-          setStatus(error ? "invalid" : "ready");
-          if (!error) window.history.replaceState({}, "", "/reset-password");
+        if (hash.get("error") || query.get("error")) {
+          finish("invalid");
+          return;
         }
-        return;
-      }
 
-      // 2) PKCE flow: ?code=...
-      const code = query.get("code");
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (!cancelled) {
-          setStatus(error ? "invalid" : "ready");
-          if (!error) window.history.replaceState({}, "", "/reset-password");
+        // The auth client normally consumes recovery links automatically.
+        const current = await withTimeout(supabase.auth.getSession(), 4000);
+        if (current.data.session) {
+          finish("ready");
+          window.history.replaceState({}, "", "/reset-password");
+          return;
         }
-        return;
-      }
 
-      // 3) OTP verify flow: ?token_hash=...&type=recovery
-      const tokenHash = query.get("token_hash") || query.get("token");
-      if (tokenHash) {
-        const { error } = await supabase.auth.verifyOtp({
-          token_hash: tokenHash,
-          type: "recovery",
-        });
-        if (!cancelled) {
-          setStatus(error ? "invalid" : "ready");
+        // Legacy hash flow: #access_token=...&refresh_token=...
+        const accessToken = hash.get("access_token");
+        const refreshToken = hash.get("refresh_token");
+        if (accessToken && refreshToken) {
+          const { error } = await withTimeout(supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          }));
+          finish(error ? "invalid" : "ready");
           if (!error) window.history.replaceState({}, "", "/reset-password");
+          return;
         }
-        return;
-      }
 
-      // 4) Fallback: session already established by the client
-      const { data } = await supabase.auth.getSession();
-      if (cancelled) return;
-      setStatus(data.session ? "ready" : "invalid");
+        // PKCE flow: ?code=...
+        const code = query.get("code");
+        if (code) {
+          const { error } = await withTimeout(supabase.auth.exchangeCodeForSession(code));
+          finish(error ? "invalid" : "ready");
+          if (!error) window.history.replaceState({}, "", "/reset-password");
+          return;
+        }
+
+        // OTP flow: ?token_hash=...&type=recovery
+        const tokenHash = query.get("token_hash") || query.get("token");
+        if (tokenHash) {
+          const { error } = await withTimeout(supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: "recovery",
+          }));
+          finish(error ? "invalid" : "ready");
+          if (!error) window.history.replaceState({}, "", "/reset-password");
+          return;
+        }
+
+        finish("invalid");
+      } catch {
+        finish("invalid");
+      }
     };
 
-    // give the supabase client a moment to auto-process the URL first
-    const timer = setTimeout(verify, 400);
+    // Let the auth client process callback parameters before using fallbacks.
+    const timer = setTimeout(verify, 800);
+    const safetyTimer = setTimeout(() => finish("invalid"), 10000);
 
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      clearTimeout(safetyTimer);
       subscription.unsubscribe();
     };
   }, []);
